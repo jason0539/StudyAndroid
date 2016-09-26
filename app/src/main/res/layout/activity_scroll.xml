@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <com.jason.workdemo.animation.ScrollerTextView
+            android:id="@+id/btn_scroll_scroller"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_blue_light"
+            android:text="scroll滑动"
+    />
+    <TextView
+            android:id="@+id/btn_scroll_anim"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_purple"
+            android:text="动画滑动"
+    />
+    <TextView
+            android:id="@+id/btn_scroll_delay"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_blue_light"
+            android:text="延迟滑动"
+    />
+</LinearLayout>
