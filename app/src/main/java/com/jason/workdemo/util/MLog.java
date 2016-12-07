@@ -7,6 +7,9 @@ import com.jason.workdemo.BuildConfig;
  */
 public class MLog {
     private static final boolean DEBUG = BuildConfig.DEBUG;
+    public static final String TAG = MLog.class.getSimpleName();
+
+    public static final String TAG_FILE = "TAG_FILE";
 
     public static void d(String TAG, String msg) {
         if (DEBUG) {

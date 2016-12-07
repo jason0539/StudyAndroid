@@ -30,6 +30,7 @@
         <activity android:name=".handler.HandlerDemoActivity"></activity>
         <activity android:name=".view.CustomViewActivity"></activity>
         <activity android:name=".webview.WebviewActivity"></activity>
+        <activity android:name=".demo.ListViewActivity"></activity>
     </application>
 
 </manifest>
