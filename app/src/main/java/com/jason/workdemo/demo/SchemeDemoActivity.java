@@ -1,4 +1,4 @@
-package com.jason.workdemo.scheme;
+package com.jason.workdemo.demo;
 
 import android.app.Activity;
 import android.content.Intent;

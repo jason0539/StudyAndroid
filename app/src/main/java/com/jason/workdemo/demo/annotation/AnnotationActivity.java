@@ -1,4 +1,4 @@
-package com.jason.workdemo.annotation;
+package com.jason.workdemo.demo.annotation;
 
 import android.app.Activity;
 import android.os.Bundle;

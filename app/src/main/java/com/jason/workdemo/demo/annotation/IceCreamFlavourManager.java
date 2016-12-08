@@ -1,4 +1,4 @@
-package com.jason.workdemo.annotation;
+package com.jason.workdemo.demo.annotation;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;

@@ -20,16 +20,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".touchevent.velocity.VelocityTrackerDemoActivity"></activity>
-        <activity android:name=".scheme.SchemeDemoActivity"></activity>
+        <activity android:name=".demo.SchemeDemoActivity"></activity>
         <activity android:name=".touchevent.gesture.GestureActivity"></activity>
         <activity android:name=".animation.AnimActivity"></activity>
         <activity android:name=".animation.ScrollActivity"></activity>
         <activity android:name=".touchevent.event.TouchActivity"></activity>
         <activity android:name=".touchevent.scrollconflict.ScrollConflictActivity"></activity>
         <activity android:name=".plugin.PluginActivity"></activity>
-        <activity android:name=".handler.HandlerDemoActivity"></activity>
+        <activity android:name=".demo.HandlerDemoActivity"></activity>
         <activity android:name=".view.CustomViewActivity"></activity>
-        <activity android:name=".webview.WebviewActivity"></activity>
+        <activity android:name=".demo.webview.WebviewActivity"></activity>
         <activity android:name=".demo.ListViewActivity"></activity>
         <activity android:name=".demo.span.SpanDemoActivity"></activity>
         <activity android:name=".demo.TextViewActivity"></activity>
