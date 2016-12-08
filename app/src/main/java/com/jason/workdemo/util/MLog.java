@@ -11,6 +11,7 @@ public class MLog {
 
     public static final String TAG_FILE = "TAG_FILE";
     public static final String TAG_JSON = "TAG_JSON";
+    public static final String TAG_SPAN = "TAG_SPAN";
 
     public static void d(String TAG, String msg) {
         if (DEBUG) {

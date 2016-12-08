@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.jason.workdemo.animation.AnimActivity;
 import com.jason.workdemo.animation.ScrollActivity;
 import com.jason.workdemo.demo.ListViewActivity;
-import com.jason.workdemo.demo.json.JsonUtils;
+import com.jason.workdemo.demo.span.SpanDemoActivity;
 import com.jason.workdemo.util.MLog;
 import com.jason.workdemo.view.CustomViewActivity;
 
@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
         dataList.add(AnimActivity.class);
         dataList.add(ScrollActivity.class);
         dataList.add(ListViewActivity.class);
+        dataList.add(SpanDemoActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
