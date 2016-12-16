@@ -9,7 +9,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-import com.jason.workdemo.util.MLog;
+import com.jason.common.utils.MLog;
 
 /**
  * Created by liuzhenhui on 2016/12/8.

@@ -7,7 +7,8 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
-import com.jason.workdemo.util.MLog;
+
+import com.jason.common.utils.MLog;
 
 /**
  * liuzhenhui 16/6/6.下午8:30

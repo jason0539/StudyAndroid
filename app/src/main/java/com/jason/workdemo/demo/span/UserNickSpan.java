@@ -6,7 +6,7 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-import com.jason.workdemo.util.MLog;
+import com.jason.common.utils.MLog;
 
 /**
  * Created by liuzhenhui on 2016/12/8.

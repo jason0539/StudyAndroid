@@ -9,7 +9,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.jason.workdemo.util.MLog;
+import com.jason.common.utils.MLog;
 
 import java.util.ArrayList;
 

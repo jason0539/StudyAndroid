@@ -34,6 +34,7 @@
         <activity android:name=".demo.span.SpanDemoActivity"></activity>
         <activity android:name=".demo.TextViewActivity"></activity>
         <activity android:name=".demo.scroller.ScrollerActivity"></activity>
+        <activity android:name=".page.FragmentMainActivity"></activity>
     </application>
 
 </manifest>

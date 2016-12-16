@@ -1,8 +1,8 @@
 package com.jason.workdemo.demo.json;
 
 import com.alibaba.fastjson.JSON;
+import com.jason.common.utils.MLog;
 import com.jason.workdemo.demo.json.bean.RecommendUser;
-import com.jason.workdemo.util.MLog;
 
 import java.util.List;
 

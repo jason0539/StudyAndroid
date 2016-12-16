@@ -6,8 +6,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import com.jason.common.utils.MLog;
 import com.jason.workdemo.R;
-import com.jason.workdemo.util.MLog;
 
 /**
  * liuzhenhui 16/6/4.下午4:33

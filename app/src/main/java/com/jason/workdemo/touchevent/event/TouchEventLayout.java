@@ -4,7 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
-import com.jason.workdemo.util.MLog;
+
+import com.jason.common.utils.MLog;
 
 /**
  * liuzhenhui 16/6/4.上午10:53

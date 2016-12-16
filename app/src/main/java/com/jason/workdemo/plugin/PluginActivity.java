@@ -3,11 +3,14 @@ package com.jason.workdemo.plugin;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.jason.common.utils.MLog;
 import com.jason.workdemo.R;
-import com.jason.workdemo.util.MLog;
-import dalvik.system.DexClassLoader;
+
 import java.io.File;
 import java.lang.reflect.Method;
+
+import dalvik.system.DexClassLoader;
 
 /**
  * liuzhenhui 16/6/13.上午10:41

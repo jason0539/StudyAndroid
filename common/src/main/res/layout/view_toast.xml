@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@null">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_toast_shape"
+        android:gravity="center"
+        android:minHeight="150dp"
+        android:minWidth="150dp"
+        android:maxWidth="320dp"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/iv_toast_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_warning"/>
+
+        <TextView
+            android:id="@+id/tv_toast_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:text="Error Error Error Erro sdf sdf r Error Error "
+            android:textColor="#ffffff"
+            android:textSize="13dp"/>
+    </LinearLayout>
+</FrameLayout>

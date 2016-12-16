@@ -12,13 +12,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jason.common.utils.MLog;
 import com.jason.workdemo.animation.AnimActivity;
 import com.jason.workdemo.animation.ScrollActivity;
 import com.jason.workdemo.demo.ListViewActivity;
 import com.jason.workdemo.demo.TextViewActivity;
 import com.jason.workdemo.demo.scroller.ScrollerActivity;
 import com.jason.workdemo.demo.span.SpanDemoActivity;
-import com.jason.workdemo.util.MLog;
+import com.jason.workdemo.page.FragmentMainActivity;
 import com.jason.workdemo.view.CustomViewActivity;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class MainActivity extends Activity {
         dataList.add(SpanDemoActivity.class);
         dataList.add(TextViewActivity.class);
         dataList.add(ScrollerActivity.class);
+        dataList.add(FragmentMainActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

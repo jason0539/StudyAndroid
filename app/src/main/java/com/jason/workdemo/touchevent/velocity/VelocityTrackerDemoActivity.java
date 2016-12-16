@@ -7,7 +7,8 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.TextView;
-import com.jason.workdemo.util.MLog;
+
+import com.jason.common.utils.MLog;
 import com.jason.workdemo.R;
 
 /**

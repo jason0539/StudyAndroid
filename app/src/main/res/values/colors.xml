@@ -3,4 +3,25 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="pink_dark">#ff0059</color>//用于重要文字信息，内容标题信息,如TAB 名称、大模块标题、类目名称
+    <color name="pink_light">#FF416D</color>//用于重要文字信息，内容标题信息,如TAB 名称、大模块标题、类目名称
+    <color name="black_dark">#201829</color>//用于重要文字信息，内容标题信息,如TAB 名称、大模块标题、类目名称
+    <color name="black_light">#23222f</color>//用于重要文字信息，大面积填充色,如TAB 名称、大模块标题、类目名称
+    <color name="blue">#477BAD</color>//链接文字
+
+    <color name="gray_dark">#666666</color>//用于普通级段落信息，用户名，icon,如帖子详情页正文信息
+    <color name="gray_normal">#b2b1b1</color>//用于三级文字,如点赞数 以及评论中链接的帖子的标题
+    <color name="gray_light">#CCCCCC</color>//置灰icon
+
+    <color name="white_dark">#eeeeee</color>//背景色
+    <color name="white_light">#f7f7f7</color>//文字背景 内容区域底色,如发帖页 帖子标题模块背景
+    <color name="white">#ffffff</color>//白色
+
+    <!--button color-->
+    <color name="white_mask">#bbffffff</color>
+    <color name="pink_dark_mask">#bbff0059</color>
+    <!--button color-->
+    <color name="btn_blue">#6390ff</color>
 </resources>
