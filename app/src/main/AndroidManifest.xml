@@ -33,6 +33,7 @@
         <activity android:name=".demo.ListViewActivity"></activity>
         <activity android:name=".demo.span.SpanDemoActivity"></activity>
         <activity android:name=".demo.TextViewActivity"></activity>
+        <activity android:name=".demo.scroller.ScrollerActivity"></activity>
     </application>
 
 </manifest>
