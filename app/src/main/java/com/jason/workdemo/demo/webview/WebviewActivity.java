@@ -7,10 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
+import com.jason.common.utils.MLog;
 import com.jason.common.utils.MToast;
 import com.jason.workdemo.R;
 
@@ -23,24 +26,42 @@ public class WebviewActivity extends Activity {
     private static final int REQ_CHOOSE = 112;
 
     WebView mWebview;
+    Button mBtnConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         mWebview = (WebView) findViewById(R.id.wv_webview);
+        mBtnConfirm = (Button)findViewById(R.id.btn_webview_confirm);
+
+
         WebSettings settings = mWebview.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        mWebview.loadUrl("https://stable.fingerapp.cn/static/activity/feedback/#/");
         mWebview.setWebViewClient(new MyWebviewClient());
+        mWebview.loadUrl("http://192.168.2.90:8080/#/");
+
+        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mWebview != null) {
+                    mWebview.loadUrl("javascript:submitFeedback()");
+                }
+            }
+        });
     }
 
     class MyWebviewClient extends WebViewClient {
         @Override
         public synchronized boolean shouldOverrideUrlLoading(WebView view, String url) {
+            MLog.d(MLog.TAG_WEBVIEW,"MyWebviewClient->"+"shouldOverrideUrlLoading ");
             if (url.startsWith("finger://faq.upload.picture")) {
                 launchGallery();
+                return true;
+            }else if (url.startsWith("finger://faq.upload.test")) {
+                MLog.d(MLog.TAG_WEBVIEW,url);
+                MToast.show("收到JS调用");
                 return true;
             }
             return super.shouldOverrideUrlLoading(view, url);
@@ -96,13 +117,13 @@ public class WebviewActivity extends Activity {
                         baos.close();
                         fileBase64 = fileBase64 + Base64.encodeToString(bytes, Base64.NO_WRAP);
 
-                        int picWidth = bitmap.getWidth();
-                        int picHeight = bitmap.getHeight();
+//                        int picWidth = bitmap.getWidth();
+//                        int picHeight = bitmap.getHeight();
+//                        mWebview.loadUrl("javascript:appUploadImg('" + fileBase64 + "'," + picWidth + "," + picHeight + ")");
 
-                        mWebview.loadUrl("javascript:appUploadImg('" + fileBase64 + "'," + picWidth + "," + picHeight + ")");
+                        mWebview.loadUrl("javascript:appUploadImg('" + fileBase64 + "')");
                     } else {
                         MToast.show("您选择的不是有效的图片");
-                        mWebview.loadUrl("javascript:bdstat('无效图片',illegalPicture)");
                     }
                 }
             } catch (Exception e) {

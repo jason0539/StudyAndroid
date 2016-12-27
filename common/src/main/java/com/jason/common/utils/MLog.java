@@ -19,6 +19,7 @@ public class MLog {
     public static final String TAG_LOGIN = "TAG_LOGIN";
     public static final String TAG_HTTP = "TAG_HTTP";
     public static final String TAG_FILE = "TAG_FILE";
+    public static final String TAG_WEBVIEW = "TAG_WEBVIEW";
     public static final String TAG_INDEXABLELV = "TAG_INDEXABLELV";
 
     public static final void d(String subTag, String msg) {
