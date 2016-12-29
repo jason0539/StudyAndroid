@@ -12,7 +12,17 @@ import java.lang.reflect.Method;
 public class HookHelper {
     public static final String TAG = HookHelper.class.getSimpleName();
 
-    public static void attachContext() throws Exception {
+    public static void hookActivityInstrumentation(Activity activity) throws Exception {
+//        Class<?> activityClass = activity.getClass();
+        Class<?> activityClass = Class.forName("android.app.Activity");
+        Field mInstrumentationField = activityClass.getDeclaredField("mInstrumentation");
+        mInstrumentationField.setAccessible(true);
+        Instrumentation mInstrumentation = (Instrumentation) mInstrumentationField.get(activity);
+        Instrumentation evilInstrumentation = new EvilInstrumentation(mInstrumentation);
+        mInstrumentationField.set(activity, evilInstrumentation);
+    }
+
+    public static void hookActivityThreadInstrumentation() throws Exception {
         //获取当前的ActivityThread对象
         Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
         Method currentActivityThreadMethod = activityThreadClass.getDeclaredMethod("currentActivityThread");
@@ -28,15 +38,5 @@ public class HookHelper {
         //创建代理对象
         Instrumentation evilInstrumentation = new EvilInstrumentation(mInstrumentation);
         mInstrumentationField.set(currentActivityThread, evilInstrumentation);
-    }
-
-    public static void hookActivityInstrumentation(Activity activity) throws Exception {
-//        Class<?> activityClass = activity.getClass();
-        Class<?> activityClass = Class.forName("android.app.Activity");
-        Field mInstrumentationField = activityClass.getDeclaredField("mInstrumentation");
-        mInstrumentationField.setAccessible(true);
-        Instrumentation mInstrumentation = (Instrumentation) mInstrumentationField.get(activity);
-        Instrumentation evilInstrumentation = new EvilInstrumentation(mInstrumentation);
-        mInstrumentationField.set(activity, evilInstrumentation);
     }
 }
