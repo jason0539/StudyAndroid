@@ -21,6 +21,7 @@ import com.jason.workdemo.demo.scroller.ScrollerActivity;
 import com.jason.workdemo.demo.span.SpanDemoActivity;
 import com.jason.workdemo.demo.webview.WebviewActivity;
 import com.jason.workdemo.page.FragmentMainActivity;
+import com.jason.workdemo.plugin.hook.HookContextActivity;
 import com.jason.workdemo.view.CustomViewActivity;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class MainActivity extends Activity {
         dataList.add(ScrollerActivity.class);
         dataList.add(FragmentMainActivity.class);
         dataList.add(WebviewActivity.class);
+        dataList.add(HookContextActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

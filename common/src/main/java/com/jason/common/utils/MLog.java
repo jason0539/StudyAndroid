@@ -21,6 +21,7 @@ public class MLog {
     public static final String TAG_FILE = "TAG_FILE";
     public static final String TAG_WEBVIEW = "TAG_WEBVIEW";
     public static final String TAG_INDEXABLELV = "TAG_INDEXABLELV";
+    public static final String TAG_HOOK = "TAG_HOOK";
 
     public static final void d(String subTag, String msg) {
         if (DEBUG) {
