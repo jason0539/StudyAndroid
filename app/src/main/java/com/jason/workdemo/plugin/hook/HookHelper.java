@@ -1,5 +1,6 @@
 package com.jason.workdemo.plugin.hook;
 
+import android.app.Activity;
 import android.app.Instrumentation;
 
 import java.lang.reflect.Field;
@@ -27,5 +28,15 @@ public class HookHelper {
         //创建代理对象
         Instrumentation evilInstrumentation = new EvilInstrumentation(mInstrumentation);
         mInstrumentationField.set(currentActivityThread, evilInstrumentation);
+    }
+
+    public static void hookActivityInstrumentation(Activity activity) throws Exception {
+//        Class<?> activityClass = activity.getClass();
+        Class<?> activityClass = Class.forName("android.app.Activity");
+        Field mInstrumentationField = activityClass.getDeclaredField("mInstrumentation");
+        mInstrumentationField.setAccessible(true);
+        Instrumentation mInstrumentation = (Instrumentation) mInstrumentationField.get(activity);
+        Instrumentation evilInstrumentation = new EvilInstrumentation(mInstrumentation);
+        mInstrumentationField.set(activity, evilInstrumentation);
     }
 }

@@ -18,10 +18,18 @@ public class HookContextActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MLog.d(MLog.TAG_HOOK,"HookContextActivity->"+"onCreate ");
         super.onCreate(savedInstanceState);
         Button tv = new Button(this);
         tv.setText("测试界面");
         setContentView(tv);
+
+        try {
+            HookHelper.hookActivityInstrumentation(this);
+        } catch (Exception e) {
+            MLog.d(MLog.TAG_HOOK,"HookContextActivity->"+"onCreate hook activity error " + e.toString());
+            e.printStackTrace();
+        }
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,18 +41,20 @@ public class HookContextActivity extends Activity {
                 // 因为Activity对象的startActivity使用的并不是ContextImpl的mInstrumentation
                 // 而是自己的mInstrumentation, 如果你需要这样, 可以自己Hook
                 // 比较简单, 直接替换这个Activity的此字段即可.
-                getApplicationContext().startActivity(intent);
+//                getApplicationContext().startActivity(intent);
+                startActivity(intent);
             }
         });
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
+        MLog.d(MLog.TAG_HOOK,"HookContextActivity->"+"attachBaseContext ");
         super.attachBaseContext(newBase);
         try {
             HookHelper.attachContext();
         } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK,"HookContextActivity->"+"attachBaseContext exception = " + e.toString());
+            MLog.d(MLog.TAG_HOOK, "HookContextActivity->" + "attachBaseContext exception = " + e.toString());
         }
     }
 
