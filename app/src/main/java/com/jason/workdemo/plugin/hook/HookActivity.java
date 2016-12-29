@@ -13,12 +13,12 @@ import com.jason.common.utils.MLog;
 /**
  * Created by liuzhenhui on 2016/12/29.
  */
-public class HookContextActivity extends Activity {
-    public static final String TAG = HookContextActivity.class.getSimpleName();
+public class HookActivity extends Activity {
+    public static final String TAG = HookActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MLog.d(MLog.TAG_HOOK,"HookContextActivity->"+"onCreate ");
+        MLog.d(MLog.TAG_HOOK,"HookActivity->"+"onCreate ");
         super.onCreate(savedInstanceState);
         Button tv = new Button(this);
         tv.setText("测试界面");
@@ -27,7 +27,7 @@ public class HookContextActivity extends Activity {
         try {
             HookHelper.hookActivityInstrumentation(this);
         } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK,"HookContextActivity->"+"onCreate hook activity error " + e.toString());
+            MLog.d(MLog.TAG_HOOK,"HookActivity->"+"onCreate hook activity error " + e.toString());
             e.printStackTrace();
         }
 
@@ -49,12 +49,12 @@ public class HookContextActivity extends Activity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        MLog.d(MLog.TAG_HOOK,"HookContextActivity->"+"attachBaseContext ");
+        MLog.d(MLog.TAG_HOOK,"HookActivity->"+"attachBaseContext ");
         super.attachBaseContext(newBase);
         try {
             HookHelper.attachContext();
         } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK, "HookContextActivity->" + "attachBaseContext exception = " + e.toString());
+            MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext exception = " + e.toString());
         }
     }
 

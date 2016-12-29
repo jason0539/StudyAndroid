@@ -36,7 +36,7 @@
         <activity android:name=".demo.TextViewActivity"></activity>
         <activity android:name=".demo.scroller.ScrollerActivity"></activity>
         <activity android:name=".page.FragmentMainActivity"></activity>
-        <activity android:name=".plugin.hook.HookContextActivity"></activity>
+        <activity android:name=".plugin.hook.HookActivity"></activity>
     </application>
 
 </manifest>
