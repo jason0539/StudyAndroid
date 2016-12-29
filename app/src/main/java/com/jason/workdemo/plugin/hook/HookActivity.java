@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.jason.common.utils.MLog;
@@ -15,6 +16,7 @@ import com.jason.common.utils.ScreenUtils;
 
 /**
  * Created by liuzhenhui on 2016/12/29.
+ * http://weishu.me/2016/02/16/understand-plugin-framework-binder-hook/
  */
 public class HookActivity extends Activity {
     public static final String TAG = HookActivity.class.getSimpleName();
@@ -34,8 +36,8 @@ public class HookActivity extends Activity {
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dpToPxInt(this, 50));
+
         Button tv = new Button(this);
         tv.setLayoutParams(buttonParams);
         tv.setText("HookActivity");
@@ -53,8 +55,27 @@ public class HookActivity extends Activity {
 //                startActivity(intent);
             }
         });
-
         linearLayout.addView(tv);
+
+        Button btnHookClipboard = new Button(this);
+        btnHookClipboard.setLayoutParams(buttonParams);
+        btnHookClipboard.setText("HookBinder");
+        btnHookClipboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    HookHelper.hookBinderClipboardService();
+                } catch (Exception e) {
+                    MLog.d(MLog.TAG_HOOK, "HookActivity->" + "hook clipboard failed");
+                    e.printStackTrace();
+                }
+            }
+        });
+        linearLayout.addView(btnHookClipboard);
+
+        EditText etInput = new EditText(this);
+        etInput.setLayoutParams(buttonParams);
+        linearLayout.addView(etInput);
 
         setContentView(linearLayout);
     }
