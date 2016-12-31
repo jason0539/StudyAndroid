@@ -20,6 +20,7 @@ import com.jason.workdemo.demo.TextViewActivity;
 import com.jason.workdemo.demo.scroller.ScrollerActivity;
 import com.jason.workdemo.demo.span.SpanDemoActivity;
 import com.jason.workdemo.demo.webview.WebviewActivity;
+import com.jason.workdemo.ipc.aidl.AIDLActivity;
 import com.jason.workdemo.page.FragmentMainActivity;
 import com.jason.workdemo.plugin.hook.HookActivity;
 import com.jason.workdemo.view.CustomViewActivity;
@@ -50,6 +51,7 @@ public class MainActivity extends Activity {
         dataList.add(ScrollerActivity.class);
         dataList.add(FragmentMainActivity.class);
         dataList.add(WebviewActivity.class);
+        dataList.add(AIDLActivity.class);
         dataList.add(HookActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
