@@ -49,37 +49,6 @@ public class RevealFollowButton extends FrameLayout {
         return false;
     }
 
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_UP:
-                return true;
-        }
-        return false;
-    }
-
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (!isValidClick(event.getX(), event.getY())) {
-                    return false;
-                }
-                return true;
-            case MotionEvent.ACTION_UP:
-                if (!isValidClick(event.getX(), event.getY())) {
-                    return false;
-                }
-                mCenterX = event.getX();
-                mCenterY = event.getY();
-                mRevealRadius = 0;
-                mFollowTv.setVisibility(View.VISIBLE);
-                mUnFollowTv.setVisibility(View.VISIBLE);
-                setFollowed(!mIsFollowed, true);
-                return true;
-        }
-        return false;
-    }
-
     private void init() {
         mUnFollowTv = new TextView(getContext());
         mUnFollowTv.setText("未关注");
@@ -101,6 +70,39 @@ public class RevealFollowButton extends FrameLayout {
         mUnFollowTv.setPadding(40, 40, 40, 40);
 
         setFollowed(false, false);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_UP:
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!isValidClick(event.getX(), event.getY())) {
+                    return false;
+                }
+                return true;
+            case MotionEvent.ACTION_UP:
+                if (!isValidClick(event.getX(), event.getY())) {
+                    return false;
+                }
+                mCenterX = event.getX();
+                mCenterY = event.getY();
+                mRevealRadius = 0;
+                mFollowTv.setVisibility(View.VISIBLE);
+                mUnFollowTv.setVisibility(View.VISIBLE);
+                setFollowed(!mIsFollowed, true);
+                return true;
+        }
+        return false;
     }
 
     protected void setFollowed(boolean isFollowed, boolean needAnimate) {
