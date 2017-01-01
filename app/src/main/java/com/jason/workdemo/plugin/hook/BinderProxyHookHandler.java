@@ -23,6 +23,7 @@ public class BinderProxyHookHandler implements InvocationHandler {
     Class<?> iinterface;
 
     public BinderProxyHookHandler(IBinder base) {
+        MLog.d(MLog.TAG_HOOK,"BinderProxyHookHandler->"+"BinderProxyHookHandler ");
         this.base = base;
         try {
             this.stub = Class.forName("android.content.IClipboard$Stub");
@@ -35,6 +36,8 @@ public class BinderProxyHookHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        //该方法可能有缓存，应用启动后只会调用一次，如果应用启动后，在hook之前就使用过粘贴板，那么hook会失效
+        //（具体原因还要看源码跟踪，可以从ClipboardManager入手）
         if ("queryLocalInterface".equals(method.getName())) {
             MLog.d(MLog.TAG_HOOK, "BinderProxyHookHandler->" + "hook queryLocalInterface");
 
