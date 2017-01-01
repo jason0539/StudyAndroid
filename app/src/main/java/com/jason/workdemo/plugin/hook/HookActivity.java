@@ -28,6 +28,7 @@ public class HookActivity extends Activity {
 
         //Hook Activity的instrumentation
         try {
+            //hook掉Activity的instrumentation
             HookHelper.hookActivityInstrumentation(this);
         } catch (Exception e) {
             MLog.d(MLog.TAG_HOOK, "HookActivity->" + "onCreate hook activity error " + e.toString());
@@ -40,7 +41,7 @@ public class HookActivity extends Activity {
 
         Button tv = new Button(this);
         tv.setLayoutParams(buttonParams);
-        tv.setText("HookActivity");
+        tv.setText("打开百度网址");
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +78,16 @@ public class HookActivity extends Activity {
         etInput.setLayoutParams(buttonParams);
         linearLayout.addView(etInput);
 
+        Button btnHookAMS = new Button(this);
+        btnHookAMS.setLayoutParams(buttonParams);
+        linearLayout.addView(btnHookAMS);
+        btnHookAMS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         setContentView(linearLayout);
     }
 
@@ -85,9 +96,15 @@ public class HookActivity extends Activity {
         MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext ");
         super.attachBaseContext(newBase);
         try {
+            //hook掉ActivityThread的instumentation
             HookHelper.hookActivityThreadInstrumentation();
         } catch (Exception e) {
             MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext exception = " + e.toString());
+        }
+        try {
+            HookHelper.hookAMS();
+        } catch (Exception e) {
+            MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext hookAMS failed e = " + e.toString());
         }
     }
 

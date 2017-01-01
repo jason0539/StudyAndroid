@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.os.IBinder;
 
+import com.jason.common.utils.MLog;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -44,6 +46,7 @@ public class HookHelper {
     }
 
     public static void hookBinderClipboardService() throws Exception {
+        MLog.d(MLog.TAG_HOOK, "HookHelper->" + "hookBinderClipboardService ");
         final String CLIPBOARD_SERVICE = "clipboard";
 
         // 下面这一段的意思实际就是: ServiceManager.getService("clipboard");
@@ -66,5 +69,29 @@ public class HookHelper {
         cacheField.setAccessible(true);
         Map<String, IBinder> cache = (Map) cacheField.get(null);
         cache.put(CLIPBOARD_SERVICE, hookedBinder);
+    }
+
+    public static void hookAMS() throws Exception {
+        Class<?> activityManagerNativeClass = Class.forName("android.app.ActivityManagerNative");
+
+        // 获取 gDefault 这个字段, 想办法替换它
+        Field gDefaultField = activityManagerNativeClass.getDeclaredField("gDefault");
+        gDefaultField.setAccessible(true);
+        Object gDefault = gDefaultField.get(null);
+
+        // 4.x以上的gDefault是一个 android.util.Singleton对象; 我们取出这个单例里面的字段
+        Class<?> singleton = Class.forName("android.util.Singleton");
+        Field mInstanceField = singleton.getDeclaredField("mInstance");
+        mInstanceField.setAccessible(true);
+
+        // ActivityManagerNative 的gDefault对象里面原始的 IActivityManager对象
+        Object rawIActivityManager = mInstanceField.get(gDefault);
+
+        Class<?> iActivityManagerInterface = Class.forName("android.app.IActivityManager");
+//        Thread.currentThread().getContextClassLoader()
+        Object proxy = Proxy.newProxyInstance(activityManagerNativeClass.getClassLoader(),
+                new Class<?>[]{iActivityManagerInterface}, new AmsAndPmsHookHandler(rawIActivityManager));
+
+        mInstanceField.set(gDefault, proxy);
     }
 }
