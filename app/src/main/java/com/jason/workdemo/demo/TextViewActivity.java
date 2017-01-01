@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.jason.common.utils.LayoutUtils;
 import com.jason.common.utils.ScreenUtils;
+import com.jason.common.view.RevealFollowButton;
 import com.jason.workdemo.R;
 
 /**
@@ -17,7 +18,6 @@ import com.jason.workdemo.R;
  */
 public class TextViewActivity extends Activity {
     public static final String TAG = TextViewActivity.class.getSimpleName();
-    TextView mTvDemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,8 @@ public class TextViewActivity extends Activity {
         LinearLayout linearLayout = LayoutUtils.getVerticalLinearLayout(this);
         ViewGroup.LayoutParams layoutParams = LayoutUtils.getLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dpToPxInt(this, 50));
-        mTvDemo = new TextView(this);
+
+        final TextView mTvDemo = new TextView(this);
         mTvDemo.setLayoutParams(layoutParams);
         mTvDemo.setText("关注");
         mTvDemo.setGravity(Gravity.CENTER);
@@ -43,6 +44,11 @@ public class TextViewActivity extends Activity {
             }
         });
         linearLayout.addView(mTvDemo);
+
+        RevealFollowButton revealFollowButton = new RevealFollowButton(this);
+        revealFollowButton.setLayoutParams(layoutParams);
+        linearLayout.addView(revealFollowButton);
+
         setContentView(linearLayout);
     }
 }
