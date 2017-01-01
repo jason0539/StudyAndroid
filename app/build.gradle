@@ -18,12 +18,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-        nameNormal {
-        }
-        nameTest {
-        }
-    }
+//    productFlavors {
+//        nameNormal {
+//        }
+//        nameTest {
+//        }
+//    }
 }
 
 dependencies {
