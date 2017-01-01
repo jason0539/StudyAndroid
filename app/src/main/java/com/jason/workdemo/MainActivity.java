@@ -51,6 +51,7 @@ public class MainActivity extends Activity {
         dataList.add(ScrollerActivity.class);
         dataList.add(FragmentMainActivity.class);
         dataList.add(WebviewActivity.class);
+        dataList.add(TextViewActivity.class);
         dataList.add(AIDLActivity.class);
         dataList.add(HookActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);

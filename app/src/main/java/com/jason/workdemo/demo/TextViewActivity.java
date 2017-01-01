@@ -2,9 +2,14 @@ package com.jason.workdemo.demo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jason.common.utils.LayoutUtils;
+import com.jason.common.utils.ScreenUtils;
 import com.jason.workdemo.R;
 
 /**
@@ -17,8 +22,14 @@ public class TextViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_textview);
-        mTvDemo = (TextView) findViewById(R.id.tv_textview_demo);
+        LinearLayout linearLayout = LayoutUtils.getVerticalLinearLayout(this);
+        ViewGroup.LayoutParams layoutParams = LayoutUtils.getLayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dpToPxInt(this, 50));
+        mTvDemo = new TextView(this);
+        mTvDemo.setLayoutParams(layoutParams);
+        mTvDemo.setText("关注");
+        mTvDemo.setGravity(Gravity.CENTER);
+        mTvDemo.setBackground(getResources().getDrawable(R.drawable.selector_focus));
         mTvDemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,5 +42,7 @@ public class TextViewActivity extends Activity {
                 }
             }
         });
+        linearLayout.addView(mTvDemo);
+        setContentView(linearLayout);
     }
 }
