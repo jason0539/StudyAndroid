@@ -1,0 +1,3 @@
+轮播控件AndroidLoopView
+https://github.com/idisfkj/AndroidLoopView
+
