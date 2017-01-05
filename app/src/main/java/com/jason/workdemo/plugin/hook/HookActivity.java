@@ -41,6 +41,7 @@ public class HookActivity extends Activity {
 
         Button tv = new Button(this);
         tv.setLayoutParams(buttonParams);
+        // 测试对activity instrument的hook和对AMS的hook
         tv.setText("打开百度网址");
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +79,15 @@ public class HookActivity extends Activity {
         etInput.setLayoutParams(buttonParams);
         linearLayout.addView(etInput);
 
-        Button btnHookAMS = new Button(this);
-        btnHookAMS.setLayoutParams(buttonParams);
-        linearLayout.addView(btnHookAMS);
-        btnHookAMS.setOnClickListener(new View.OnClickListener() {
+        Button btnHookPMS = new Button(this);
+        btnHookPMS.setText("测试PMS效果");
+        btnHookPMS.setLayoutParams(buttonParams);
+        linearLayout.addView(btnHookPMS);
+        btnHookPMS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // 测试PMS HOOK (调用其相关方法)
+                getPackageManager().getInstalledApplications(0);
             }
         });
 
@@ -105,6 +108,11 @@ public class HookActivity extends Activity {
             HookHelper.hookAMS();
         } catch (Exception e) {
             MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext hookAMS failed e = " + e.toString());
+        }
+        try {
+            HookHelper.hookPMS(newBase);
+        } catch (Exception e) {
+            MLog.d(MLog.TAG_HOOK,"HookActivity->"+"attachBaseContext hookPMS failed = " + e.toString());
         }
     }
 
