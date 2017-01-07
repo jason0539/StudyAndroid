@@ -90,7 +90,7 @@ public class HookActivity extends Activity {
 
         //启动没有在manifest文件中注册的activity
         Button btnStartPluginActivity = new Button(this);
-        btnStartPluginActivity.setText("启动插件Activity");
+        btnStartPluginActivity.setText("启动未注册Activity");
         btnStartPluginActivity.setLayoutParams(buttonParams);
         linearLayout.addView(btnStartPluginActivity);
         btnStartPluginActivity.setOnClickListener(new View.OnClickListener() {
