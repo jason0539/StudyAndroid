@@ -62,9 +62,11 @@ public class ListViewActivity extends Activity {
                 return false;
             }
         });
-        for (String gp : files) {
-            MLog.d(MLog.TAG_FILE, TAG + "->" + "refreshFiles " + gp);
-            dataList.add(rootPath + File.separator + gp);
+        if (files != null) {
+            for (String gp : files) {
+                MLog.d(MLog.TAG_FILE, TAG + "->" + "refreshFiles " + gp);
+                dataList.add(rootPath + File.separator + gp);
+            }
         }
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList) {
