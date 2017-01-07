@@ -91,6 +91,18 @@ public class HookActivity extends Activity {
             }
         });
 
+        Button btnStartPluginActivity = new Button(this);
+        btnStartPluginActivity.setText("启动插件Activity");
+        btnStartPluginActivity.setLayoutParams(buttonParams);
+        linearLayout.addView(btnStartPluginActivity);
+        btnStartPluginActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HookActivity.this, PluginTargetActivity.class);
+                HookActivity.this.startActivity(intent);
+            }
+        });
+
         setContentView(linearLayout);
     }
 
@@ -100,7 +112,7 @@ public class HookActivity extends Activity {
         super.attachBaseContext(newBase);
         try {
             //hook掉ActivityThread的instumentation
-            HookHelper.hookActivityThreadInstrumentation();
+//            HookHelper.hookActivityThreadInstrumentation();
         } catch (Exception e) {
             MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext exception = " + e.toString());
         }
@@ -114,6 +126,8 @@ public class HookActivity extends Activity {
         } catch (Exception e) {
             MLog.d(MLog.TAG_HOOK,"HookActivity->"+"attachBaseContext hookPMS failed = " + e.toString());
         }
+
+        AmsHookHelper.hookActivityThreadHandlerCallback();
     }
 
 }

@@ -39,6 +39,7 @@
         <activity android:name=".ipc.aidl.AIDLActivity"></activity>
         <service android:name=".ipc.aidl.BookService"></service>
         <activity android:name=".plugin.hook.HookActivity"></activity>
+        <activity android:name=".plugin.hook.StubActivity"></activity>
     </application>
 
 </manifest>

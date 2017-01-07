@@ -19,6 +19,10 @@ import java.util.Map;
 public class HookHelper {
     public static final String TAG = HookHelper.class.getSimpleName();
 
+
+    /**
+     * hook当前activity的mInstrumentation，仅对当前activity有效
+     */
     public static void hookActivityInstrumentation(Activity activity) throws Exception {
 //        Class<?> activityClass = activity.getClass();
         Class<?> activityClass = Class.forName("android.app.Activity");
@@ -29,6 +33,9 @@ public class HookHelper {
         mInstrumentationField.set(activity, evilInstrumentation);
     }
 
+    /**
+     * hook当前应用的activityThread，对当前应用有效，但是时机不够早
+     */
     public static void hookActivityThreadInstrumentation() throws Exception {
         //获取当前的ActivityThread对象
         Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
@@ -73,8 +80,14 @@ public class HookHelper {
         cache.put(CLIPBOARD_SERVICE, hookedBinder);
     }
 
+    public static boolean amsHooked = false;
     //http://weishu.me/2016/03/07/understand-plugin-framework-ams-pms-hook/
     public static void hookAMS() throws Exception {
+        if (amsHooked) {
+            MLog.d(MLog.TAG_HOOK,"HookHelper->"+"hookAMS ams已经hook，返回");
+            return;
+        }
+        amsHooked = true;
         Class<?> activityManagerNativeClass = Class.forName("android.app.ActivityManagerNative");
 
         // 获取 gDefault 这个字段, 想办法替换它
@@ -98,8 +111,14 @@ public class HookHelper {
         mInstanceField.set(gDefault, proxy);
     }
 
+    public static boolean pmsHooked = false;
     //http://weishu.me/2016/03/07/understand-plugin-framework-ams-pms-hook/
     public static final void hookPMS(Context newBase) throws Exception {
+        if (pmsHooked) {
+            MLog.d(MLog.TAG_HOOK,"HookHelper->"+"hookPMS 已经hook，直接返回");
+            return;
+        }
+        pmsHooked = true;
         // 获取全局的ActivityThread对象
         Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
         Method currentActivityThreadMethod = activityThreadClass.getDeclaredMethod("currentActivityThread");
@@ -116,13 +135,13 @@ public class HookHelper {
                 new Class[]{iPackageManagerInterface}, new AmsAndPmsHookHandler(sPackageManager));
 
         // 1. 替换掉ActivityThread里面的 sPackageManager 字段
-        sPackageManagerField.set(currentActivityThread,amsProxy);
+        sPackageManagerField.set(currentActivityThread, amsProxy);
 
         // 2. 替换 ApplicationPackageManager里面的 mPm对象
         PackageManager packageManager = newBase.getPackageManager();
         Field mPMField = packageManager.getClass().getDeclaredField("mPM");
         mPMField.setAccessible(true);
-        mPMField.set(packageManager,amsProxy);
+        mPMField.set(packageManager, amsProxy);
 
         //me：以下同样可用
 //        Class<?> applicationPackageManagerClass = Class.forName("android.app.ApplicationPackageManager");

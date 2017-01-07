@@ -1,10 +1,7 @@
 package com.jason.workdemo.plugin.hook;
 
-import com.jason.common.utils.MLog;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * Created by liuzhenhui on 2017/1/1.
@@ -24,8 +21,10 @@ public class AmsAndPmsHookHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        MLog.d(MLog.TAG_HOOK, "AmsAndPmsHookHandler->" + "you are hooked!! invoke method:" + method.getName() + " called with args:" + Arrays.toString(args));
-
+//        MLog.d(MLog.TAG_HOOK, "AmsAndPmsHookHandler->" + "you are hooked!! invoke method:" + method.getName() + " called with args:" + Arrays.toString(args));
+        if (AmsHookHelper.invoke(method, args)) {
+            return method.invoke(mBase,args);
+        }
         return method.invoke(mBase, args);
     }
 }
