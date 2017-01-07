@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin;
+package com.jason.workdemo.plugin.loaddex;
 
 import android.app.Activity;
 import android.os.Bundle;

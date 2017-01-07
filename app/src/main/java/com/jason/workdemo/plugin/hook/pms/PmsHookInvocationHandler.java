@@ -1,4 +1,6 @@
-package com.jason.workdemo.plugin.hook;
+package com.jason.workdemo.plugin.hook.pms;
+
+import com.jason.common.utils.MLog;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -9,23 +11,20 @@ import java.lang.reflect.Method;
  * 只是打印日志和参数; 以后可以修改参数等达到更加高级的功能
  */
 
-public class AmsAndPmsHookHandler implements InvocationHandler {
+public class PmsHookInvocationHandler implements InvocationHandler {
 
     private static final String TAG = "HookHandler";
 
     private Object mBase;
 
-    public AmsAndPmsHookHandler(Object base) {
+    public PmsHookInvocationHandler(Object base) {
         mBase = base;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (AmsHookHelper.invoke(method, args)) {
-            return method.invoke(mBase,args);
-        }
-        if (PmsHookHelper.invoke(method,args)) {
-            return method.invoke(mBase, args);
+        if ("getInstalledApplications".equals(method.getName())) {
+            MLog.d(MLog.TAG_HOOK, TAG+"->" + "invoke getInstalledApplications");
         }
         return method.invoke(mBase, args);
     }

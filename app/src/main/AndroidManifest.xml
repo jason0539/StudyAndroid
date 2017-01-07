@@ -27,7 +27,7 @@
         <activity android:name=".animation.ScrollActivity"></activity>
         <activity android:name=".touchevent.event.TouchActivity"></activity>
         <activity android:name=".touchevent.scrollconflict.ScrollConflictActivity"></activity>
-        <activity android:name=".plugin.PluginActivity"></activity>
+        <activity android:name=".plugin.loaddex.PluginActivity"></activity>
         <activity android:name=".demo.HandlerDemoActivity"></activity>
         <activity android:name=".view.CustomViewActivity"></activity>
         <activity android:name=".demo.webview.WebviewActivity"></activity>

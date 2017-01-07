@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook;
+package com.jason.workdemo.plugin.hook.ams;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -34,9 +34,9 @@ public class ActivityThreadHandlerCallback implements Handler.Callback {
     }
 
     private void handleLanuchActivity(Message msg) {
-        MLog.d(MLog.TAG_HOOK, "ActivityThreadHandlerCallback->" + "handleLanuchActivity ");
-        // 这里简单起见,直接取出TargetActivity;
+        MLog.d(MLog.TAG_HOOK, TAG + "->" + "handleLanuchActivity ");
 
+        // 这里简单起见,直接取出TargetActivity;
         Object obj = msg.obj;
         // 根据源码:
         // 这个对象是 ActivityClientRecord 类型
@@ -56,15 +56,15 @@ public class ActivityThreadHandlerCallback implements Handler.Callback {
             Intent fakeIntent = (Intent) intentField.get(obj);
 
             //检查是否有需要替换的intent
-            if (fakeIntent.getExtras().containsKey(AmsHookHelper.EXTRA_TARGET_INTENT)) {
-                MLog.d(MLog.TAG_HOOK, "ActivityThreadHandlerCallback->" + "handleLanuchActivity 换回实际intent");
-                Intent raw = fakeIntent.getParcelableExtra(AmsHookHelper.EXTRA_TARGET_INTENT);
+            if (fakeIntent.getExtras().containsKey(AmsHookInvocationHandler.EXTRA_TARGET_INTENT)) {
+                MLog.d(MLog.TAG_HOOK, TAG + "->" + "handleLanuchActivity 换回实际intent");
+                Intent raw = fakeIntent.getParcelableExtra(AmsHookInvocationHandler.EXTRA_TARGET_INTENT);
                 fakeIntent.setComponent(raw.getComponent());
             } else {
-                MLog.d(MLog.TAG_HOOK, "ActivityThreadHandlerCallback->" + "handleLanuchActivity 不需要更换intent，直接启动");
+                MLog.d(MLog.TAG_HOOK, TAG + "->" + "handleLanuchActivity 不需要更换intent，直接启动");
             }
         } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK, "ActivityThreadHandlerCallback->" + "handleLanuchActivity " + e.toString());
+            MLog.d(MLog.TAG_HOOK, TAG + "->" + "handleLanuchActivity " + e.toString());
             e.printStackTrace();
         }
     }

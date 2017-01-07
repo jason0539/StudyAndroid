@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook;
+package com.jason.workdemo.plugin.hook.binder;
 
 import android.content.ClipData;
 import android.os.IBinder;
@@ -11,13 +11,13 @@ import java.lang.reflect.Method;
 /**
  * Created by liuzhenhui on 2016/12/29.
  */
-public class BinderHookHandler implements InvocationHandler {
-    public static final String TAG = BinderHookHandler.class.getSimpleName();
+public class BinderHookInvocationHandler implements InvocationHandler {
+    public static final String TAG = BinderHookInvocationHandler.class.getSimpleName();
 
     //原始的Service对象 (IInterface)
     Object base;
 
-    public BinderHookHandler(IBinder base, Class<?> stubClass) {
+    public BinderHookInvocationHandler(IBinder base, Class<?> stubClass) {
         try {
             Method asInterfaceMethod = stubClass.getDeclaredMethod("asInterface", IBinder.class);
             this.base = asInterfaceMethod.invoke(null, base);

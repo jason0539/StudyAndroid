@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook;
+package com.jason.workdemo.plugin.hook.binder;
 
 import android.os.IBinder;
 
@@ -11,7 +11,7 @@ import java.lang.reflect.Proxy;
 /**
  * Created by liuzhenhui on 2016/12/29.
  */
-public class BinderProxyHookHandler implements InvocationHandler {
+public class BinderProxyHookInvocationHandler implements InvocationHandler {
 
     // 绝大部分情况下,这是一个BinderProxy对象
     // 只有当Service和我们在同一个进程的时候才是Binder本地对象
@@ -22,7 +22,7 @@ public class BinderProxyHookHandler implements InvocationHandler {
 
     Class<?> iinterface;
 
-    public BinderProxyHookHandler(IBinder base) {
+    public BinderProxyHookInvocationHandler(IBinder base) {
         MLog.d(MLog.TAG_HOOK,"BinderProxyHookHandler->"+"BinderProxyHookHandler ");
         this.base = base;
         try {
@@ -59,7 +59,7 @@ public class BinderProxyHookHandler implements InvocationHandler {
                     // 所以, 其实返回的对象不需要是Binder对象, 我们把它当作普通的对象Hook掉就ok(拦截这个对象里面对于IXXInterface相关方法的调用)
                     // tks  jeremyhe_cn@qq.com
                     new Class[]{this.iinterface},
-                    new BinderHookHandler(base, stub));
+                    new BinderHookInvocationHandler(base, stub));
         }
         MLog.d(MLog.TAG_HOOK, "BinderProxyHookHandler->" + "invoke method :" + method.getName());
         return method.invoke(base, args);

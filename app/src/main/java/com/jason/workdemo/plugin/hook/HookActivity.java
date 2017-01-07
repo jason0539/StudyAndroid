@@ -13,6 +13,10 @@ import android.widget.LinearLayout;
 
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.ScreenUtils;
+import com.jason.workdemo.plugin.hook.ams.AmsHookHelper;
+import com.jason.workdemo.plugin.hook.binder.BinderHookHelper;
+import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
+import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
 
 /**
  * Created by liuzhenhui on 2016/12/29.
@@ -26,7 +30,7 @@ public class HookActivity extends Activity {
         MLog.d(MLog.TAG_HOOK, "HookActivity->" + "onCreate ");
         super.onCreate(savedInstanceState);
 
-        HookHelper.hookActivityInstrumentation(this);
+        InstrumentationHookHelper.hookActivityInstrumentation(this);
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -61,7 +65,7 @@ public class HookActivity extends Activity {
         btnHookClipboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HookHelper.hookBinderClipboardService();
+                BinderHookHelper.hookBinderClipboardService();
             }
         });
         linearLayout.addView(btnHookClipboard);
@@ -105,10 +109,10 @@ public class HookActivity extends Activity {
         MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext ");
         super.attachBaseContext(newBase);
 
-        HookHelper.hookActivityThreadInstrumentation();
-        HookHelper.hookAMS();
-        HookHelper.hookPMS(newBase);
+        InstrumentationHookHelper.hookActivityThreadInstrumentation();
+        AmsHookHelper.hookActivityManagerNative();
         AmsHookHelper.hookActivityThreadHandlerCallback();
+        PmsHookHelper.hookPMS(newBase);
     }
 
 }
