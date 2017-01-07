@@ -26,22 +26,15 @@ public class HookActivity extends Activity {
         MLog.d(MLog.TAG_HOOK, "HookActivity->" + "onCreate ");
         super.onCreate(savedInstanceState);
 
-        //Hook Activity的instrumentation
-        try {
-            //hook掉Activity的instrumentation
-            HookHelper.hookActivityInstrumentation(this);
-        } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK, "HookActivity->" + "onCreate hook activity error " + e.toString());
-            e.printStackTrace();
-        }
+        HookHelper.hookActivityInstrumentation(this);
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dpToPxInt(this, 50));
 
+        //打开浏览器浏览网页，测试对activity instrument的hook和对AMS的hook
         Button tv = new Button(this);
         tv.setLayoutParams(buttonParams);
-        // 测试对activity instrument的hook和对AMS的hook
         tv.setText("打开百度网址");
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,31 +47,31 @@ public class HookActivity extends Activity {
                 // 而是自己的mInstrumentation, 如果你需要这样, 可以自己Hook
                 // 比较简单, 直接替换这个Activity的此字段即可.
                 getApplicationContext().startActivity(intent);
+                //使用这种方式hook的化，HookHelper.hookActivityInstrumentation(this);
+                //则使用下面方式启动
 //                startActivity(intent);
             }
         });
         linearLayout.addView(tv);
 
+        //hook剪贴板服务
         Button btnHookClipboard = new Button(this);
         btnHookClipboard.setLayoutParams(buttonParams);
         btnHookClipboard.setText("HookBinder");
         btnHookClipboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    HookHelper.hookBinderClipboardService();
-                } catch (Exception e) {
-                    MLog.d(MLog.TAG_HOOK, "HookActivity->" + "hook clipboard failed");
-                    e.printStackTrace();
-                }
+                HookHelper.hookBinderClipboardService();
             }
         });
         linearLayout.addView(btnHookClipboard);
 
+        //输入框
         EditText etInput = new EditText(this);
         etInput.setLayoutParams(buttonParams);
         linearLayout.addView(etInput);
 
+        //调用PMS方法，测试hook效果
         Button btnHookPMS = new Button(this);
         btnHookPMS.setText("测试PMS效果");
         btnHookPMS.setLayoutParams(buttonParams);
@@ -91,6 +84,7 @@ public class HookActivity extends Activity {
             }
         });
 
+        //启动没有在manifest文件中注册的activity
         Button btnStartPluginActivity = new Button(this);
         btnStartPluginActivity.setText("启动插件Activity");
         btnStartPluginActivity.setLayoutParams(buttonParams);
@@ -99,7 +93,7 @@ public class HookActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HookActivity.this, PluginTargetActivity.class);
-                HookActivity.this.startActivity(intent);
+                startActivity(intent);
             }
         });
 
@@ -110,23 +104,10 @@ public class HookActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext ");
         super.attachBaseContext(newBase);
-        try {
-            //hook掉ActivityThread的instumentation
-//            HookHelper.hookActivityThreadInstrumentation();
-        } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext exception = " + e.toString());
-        }
-        try {
-            HookHelper.hookAMS();
-        } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext hookAMS failed e = " + e.toString());
-        }
-        try {
-            HookHelper.hookPMS(newBase);
-        } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK,"HookActivity->"+"attachBaseContext hookPMS failed = " + e.toString());
-        }
 
+        HookHelper.hookActivityThreadInstrumentation();
+        HookHelper.hookAMS();
+        HookHelper.hookPMS(newBase);
         AmsHookHelper.hookActivityThreadHandlerCallback();
     }
 

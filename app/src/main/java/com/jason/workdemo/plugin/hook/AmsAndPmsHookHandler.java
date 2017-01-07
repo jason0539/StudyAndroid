@@ -21,9 +21,11 @@ public class AmsAndPmsHookHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-//        MLog.d(MLog.TAG_HOOK, "AmsAndPmsHookHandler->" + "you are hooked!! invoke method:" + method.getName() + " called with args:" + Arrays.toString(args));
         if (AmsHookHelper.invoke(method, args)) {
             return method.invoke(mBase,args);
+        }
+        if (PmsHookHelper.invoke(method,args)) {
+            return method.invoke(mBase, args);
         }
         return method.invoke(mBase, args);
     }

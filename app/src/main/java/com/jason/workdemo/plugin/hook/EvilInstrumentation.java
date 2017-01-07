@@ -2,6 +2,7 @@ package com.jason.workdemo.plugin.hook;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,10 +37,13 @@ public class EvilInstrumentation extends Instrumentation {
             Method execStartActivity = Instrumentation.class.getDeclaredMethod("execStartActivity", Context.class, IBinder.class, IBinder.class, Activity.class, Intent.class, int.class, Bundle.class);
             execStartActivity.setAccessible(true);
             return (ActivityResult) execStartActivity.invoke(mBase, who, contextThread, token, target, intent, requestCode, options);
+        } catch (ActivityNotFoundException e) {
+            MLog.d(MLog.TAG_HOOK, "EvilInstrumentation->" + "execStartActivity activityNotFound :\n" + e.getCause().getMessage());
+            throw new RuntimeException("Activity Not Found");
         } catch (Exception e) {
-            MLog.d(MLog.TAG_HOOK, "EvilInstrumentation->" + "execStartActivity do not support!!! pls adapt it , e = " + e.toString());
-            // 某该死的rom修改了  需要手动适配
-            throw new RuntimeException("do not support!!! pls adapt it");
+            MLog.d(MLog.TAG_HOOK, "EvilInstrumentation->" + "execStartActivity ,e = " + e.getCause().getMessage());
+            // 某该死的rom修改源码，需要适配，或者出现了什么别的异常，
+            throw new RuntimeException("Exception happened,please check the detail");
         }
     }
 }

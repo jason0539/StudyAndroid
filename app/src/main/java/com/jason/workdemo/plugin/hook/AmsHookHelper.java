@@ -18,6 +18,9 @@ public class AmsHookHelper {
 
     public static final String EXTRA_TARGET_INTENT = "extra_target_intent";
 
+    /**
+     拦截正常的startActivity，替换intent内容，达到启动未在manifest文件中注册过的activity的效果
+     */
     public static boolean invoke(Method method, Object[] args) {
         boolean handle = false;
         if ("startActivity".equals(method.getName())) {
@@ -61,6 +64,9 @@ public class AmsHookHelper {
         return handle;
     }
 
+    /**
+     * hook启动activity后的mH的处理逻辑，替换intent达到启动未在manifest中注册的activity的效果
+     */
     public static final void hookActivityThreadHandlerCallback(){
         try {
             // 先获取到当前的ActivityThread对象
