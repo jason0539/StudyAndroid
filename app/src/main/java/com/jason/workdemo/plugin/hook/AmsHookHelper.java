@@ -48,6 +48,8 @@ public class AmsHookHelper {
                 // 这里包名直接写死,如果再插件里,不同的插件有不同的包  传递插件的包名即可
                 String targetPackage = "com.jason.workdemo";
                 ComponentName componentName = new ComponentName(targetPackage,StubActivity.class.getCanonicalName());
+                // 其实不需要使用预先注册的activity，直接使用宿主本身存在的activity就可以
+//                ComponentName componentName = new ComponentName(targetPackage, MainActivity.class.getCanonicalName());
                 fakeIntent.setComponent(componentName);
                 fakeIntent.putExtra(EXTRA_TARGET_INTENT,raw);
 
