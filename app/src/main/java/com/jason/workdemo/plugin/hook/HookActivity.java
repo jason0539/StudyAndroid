@@ -1,6 +1,7 @@
 package com.jason.workdemo.plugin.hook;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import com.jason.common.utils.ScreenUtils;
 import com.jason.workdemo.plugin.hook.ams.AmsHookHelper;
 import com.jason.workdemo.plugin.hook.binder.BinderHookHelper;
 import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
+import com.jason.workdemo.plugin.hook.loadapk.classloader_hook.LoadedApkClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
 
 /**
@@ -101,6 +103,19 @@ public class HookActivity extends Activity {
             }
         });
 
+        Button btnLoadPluginApk = new Button(this);
+        btnLoadPluginApk.setText("加载插件apk");
+        btnLoadPluginApk.setLayoutParams(buttonParams);
+        linearLayout.addView(btnLoadPluginApk);
+        btnLoadPluginApk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName("com.jason.demoplugin", "com.jason.demoplugin.MainActivity"));
+                    startActivity(intent);
+            }
+        });
+
         setContentView(linearLayout);
     }
 
@@ -113,6 +128,11 @@ public class HookActivity extends Activity {
         AmsHookHelper.hookActivityManagerNative();
         AmsHookHelper.hookActivityThreadHandlerCallback();
         PmsHookHelper.hookPMS(newBase);
+
+        //提取插件apk（应该放在线程）
+        PluginUtils.init(getApplicationContext());
+        PluginUtils.copyPluginApk(newBase, "app-debug.apk");
+        LoadedApkClassLoaderHookHelper.hookLoadedApkInActivityThread(getFileStreamPath("app-debug.apk"));
     }
 
 }

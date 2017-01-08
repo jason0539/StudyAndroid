@@ -2,7 +2,9 @@ package com.jason.common.utils;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.io.Closeable;
 import java.io.File;
@@ -131,10 +133,49 @@ public class FileUtils {
         }
     }
 
+    public static void extractAssetsFile(Context context, String sourceFileName, String destPath) {
+        AssetManager assetManager = context.getAssets();
+        InputStream inputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            inputStream = assetManager.open(sourceFileName);
+            File destFile = new File(destPath);
+            if (destFile.exists()) {
+                destFile.delete();
+            }
+            fileOutputStream = new FileOutputStream(destFile);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                fileOutputStream.write(buffer, 0, length);
+            }
+            fileOutputStream.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeIO(inputStream, fileOutputStream);
+        }
+    }
+
     public static void downloadFile(Context context, String fileurl) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fileurl));
         request.setDestinationInExternalPublicDir("/Download/", fileurl.substring(fileurl.lastIndexOf("/") + 1));
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);
     }
+
+    public static final boolean ensureDirectoryExits(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return false;
+        }
+        File file = new File(path);
+        boolean success;
+        if (file.isDirectory()) {
+            success = true;
+        } else {
+            success = file.mkdirs();
+        }
+        return success;
+    }
+
 }

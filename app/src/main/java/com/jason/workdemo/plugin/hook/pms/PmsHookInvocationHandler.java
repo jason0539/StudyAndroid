@@ -24,7 +24,14 @@ public class PmsHookInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if ("getInstalledApplications".equals(method.getName())) {
-            MLog.d(MLog.TAG_HOOK, TAG+"->" + "invoke getInstalledApplications");
+            MLog.d(MLog.TAG_HOOK, TAG + "->" + "invoke getInstalledApplications");
+        }
+        if ("getPackageInfo".equals(method.getName())) {
+            MLog.d(MLog.TAG_HOOK, TAG + "->" + "invoke getPackageInfo");
+            // initializeJavaContextClassLoader 这个方法内部无意中检查了这个包是否在系统安装
+            // 如果没有安装, 直接抛出异常, 应该临时Hook掉 PMS, 绕过这个检查.
+            // 但是不做hook好像也可以？先不管，知道就好
+//            return new PackageInfo();
         }
         return method.invoke(mBase, args);
     }

@@ -1,6 +1,7 @@
 package com.jason.workdemo.plugin.hook.ams;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
 
@@ -60,6 +61,17 @@ public class ActivityThreadHandlerCallback implements Handler.Callback {
                 MLog.d(MLog.TAG_HOOK, TAG + "->" + "handleLanuchActivity 换回实际intent");
                 Intent raw = fakeIntent.getParcelableExtra(AmsHookInvocationHandler.EXTRA_TARGET_INTENT);
                 fakeIntent.setComponent(raw.getComponent());
+
+
+                // 为了命中ActivityThread中mPackage中的LoadApk缓存，这里需要把packageName换成插件apk的包名
+                Field activityInfoField = obj.getClass().getDeclaredField("activityInfo");
+                activityInfoField.setAccessible(true);
+
+                ActivityInfo activityInfo = (ActivityInfo) activityInfoField.get(obj);
+
+                activityInfo.applicationInfo.packageName = raw.getPackage() == null ?
+                        raw.getComponent().getPackageName() : raw.getPackage();
+
             } else {
                 MLog.d(MLog.TAG_HOOK, TAG + "->" + "handleLanuchActivity 不需要更换intent，直接启动");
             }
