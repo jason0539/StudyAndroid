@@ -1,5 +1,7 @@
 package com.jason.workdemo.plugin.hook.pms;
 
+import android.content.pm.PackageInfo;
+
 import com.jason.common.utils.MLog;
 
 import java.lang.reflect.InvocationHandler;
@@ -30,8 +32,7 @@ public class PmsHookInvocationHandler implements InvocationHandler {
             MLog.d(MLog.TAG_HOOK, TAG + "->" + "invoke getPackageInfo");
             // initializeJavaContextClassLoader 这个方法内部无意中检查了这个包是否在系统安装
             // 如果没有安装, 直接抛出异常, 应该临时Hook掉 PMS, 绕过这个检查.
-            // 但是不做hook好像也可以？先不管，知道就好
-//            return new PackageInfo();
+            return new PackageInfo();
         }
         return method.invoke(mBase, args);
     }
