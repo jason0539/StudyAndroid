@@ -17,8 +17,11 @@ import com.jason.common.utils.ScreenUtils;
 import com.jason.workdemo.plugin.hook.ams.AmsHookHelper;
 import com.jason.workdemo.plugin.hook.binder.BinderHookHelper;
 import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
+import com.jason.workdemo.plugin.hook.loadapk.BaseDexClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.loadapk.LoadedApkClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
+
+import java.io.File;
 
 /**
  * Created by liuzhenhui on 2016/12/29.
@@ -26,6 +29,14 @@ import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
  */
 public class HookActivity extends Activity {
     public static final String TAG = HookActivity.class.getSimpleName();
+
+    public static final String PLUGIN_APK_FILE_NAME = "app-debug.apk";
+    public static final String PLUGIN_PACKAGE_NAME = "com.jason.demoplugin";
+
+    private static final int PATCH_BASE_CLASS_LOADER = 1;
+    private static final int CUSTOM_CLASS_LOADER = 2;
+
+    private static final int APK_LOAD_METHOD = PATCH_BASE_CLASS_LOADER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +121,14 @@ public class HookActivity extends Activity {
         btnLoadPluginApk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setComponent(new ComponentName("com.jason.demoplugin", "com.jason.demoplugin.MainActivity"));
-                    startActivity(intent);
+                Intent intent = new Intent();
+                if (APK_LOAD_METHOD == CUSTOM_CLASS_LOADER) {
+                    intent.setComponent(new ComponentName(PLUGIN_PACKAGE_NAME, "com.jason.demoplugin.MainActivity"));
+                } else if (APK_LOAD_METHOD == PATCH_BASE_CLASS_LOADER) {
+                    //这种方式没有处理插件资源的加载，无法使用插件资源
+                    intent.setComponent(new ComponentName(PLUGIN_PACKAGE_NAME, "com.jason.demoplugin.SecActivity"));
+                }
+                startActivity(intent);
             }
         });
 
@@ -131,8 +147,16 @@ public class HookActivity extends Activity {
 
         //提取插件apk（应该放在线程）
         PluginUtils.init(getApplicationContext());
-        PluginUtils.copyPluginApk(newBase, "app-debug.apk");
-        LoadedApkClassLoaderHookHelper.hookLoadedApkInActivityThread(getFileStreamPath("app-debug.apk"));
+        PluginUtils.copyPluginApk(newBase, PLUGIN_APK_FILE_NAME);
+        if (APK_LOAD_METHOD == CUSTOM_CLASS_LOADER) {
+            LoadedApkClassLoaderHookHelper.hookLoadedApkInActivityThread(getFileStreamPath(PLUGIN_APK_FILE_NAME));
+        } else if (APK_LOAD_METHOD == PATCH_BASE_CLASS_LOADER) {
+            File dexFile = getFileStreamPath(PLUGIN_APK_FILE_NAME);
+//            File optDexFile = getFileStreamPath(PLUGIN_APK_FILE_NAME);
+            String optDexPath = PluginUtils.getPluginOptDexDir(PLUGIN_PACKAGE_NAME) + File.separator + "odex";
+            File optDexFile = new File(optDexPath);
+            BaseDexClassLoaderHookHelper.patchClassLoader(getClassLoader(), dexFile, optDexFile);
+        }
     }
 
 }
