@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.loadapk.classloader_hook;
+package com.jason.workdemo.plugin.hook.loadapk;
 
 import com.jason.common.utils.MLog;
 

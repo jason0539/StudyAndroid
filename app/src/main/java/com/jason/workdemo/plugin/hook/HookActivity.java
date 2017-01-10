@@ -17,7 +17,7 @@ import com.jason.common.utils.ScreenUtils;
 import com.jason.workdemo.plugin.hook.ams.AmsHookHelper;
 import com.jason.workdemo.plugin.hook.binder.BinderHookHelper;
 import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
-import com.jason.workdemo.plugin.hook.loadapk.classloader_hook.LoadedApkClassLoaderHookHelper;
+import com.jason.workdemo.plugin.hook.loadapk.LoadedApkClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
 
 /**
