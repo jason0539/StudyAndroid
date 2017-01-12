@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.jason.workdemo">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,26 +21,32 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".touchevent.velocity.VelocityTrackerDemoActivity"></activity>
-        <activity android:name=".demo.SchemeDemoActivity"></activity>
-        <activity android:name=".touchevent.gesture.GestureActivity"></activity>
-        <activity android:name=".animation.AnimActivity"></activity>
-        <activity android:name=".animation.ScrollActivity"></activity>
-        <activity android:name=".touchevent.event.TouchActivity"></activity>
-        <activity android:name=".touchevent.scrollconflict.ScrollConflictActivity"></activity>
-        <activity android:name=".plugin.loaddex.PluginActivity"></activity>
-        <activity android:name=".demo.HandlerDemoActivity"></activity>
-        <activity android:name=".view.CustomViewActivity"></activity>
-        <activity android:name=".demo.webview.WebviewActivity"></activity>
-        <activity android:name=".demo.ListViewActivity"></activity>
-        <activity android:name=".demo.span.SpanDemoActivity"></activity>
-        <activity android:name=".demo.TextViewActivity"></activity>
-        <activity android:name=".demo.scroller.ScrollerActivity"></activity>
-        <activity android:name=".page.FragmentMainActivity"></activity>
-        <activity android:name=".ipc.aidl.AIDLActivity"></activity>
-        <service android:name=".ipc.aidl.BookService"></service>
-        <activity android:name=".plugin.hook.HookActivity"></activity>
-        <activity android:name=".plugin.hook.StubActivity"></activity>
+        <activity android:name=".touchevent.velocity.VelocityTrackerDemoActivity"/>
+        <activity android:name=".demo.SchemeDemoActivity"/>
+        <activity android:name=".touchevent.gesture.GestureActivity"/>
+        <activity android:name=".animation.AnimActivity"/>
+        <activity android:name=".animation.ScrollActivity"/>
+        <activity android:name=".touchevent.event.TouchActivity"/>
+        <activity android:name=".touchevent.scrollconflict.ScrollConflictActivity"/>
+        <activity android:name=".plugin.loaddex.PluginActivity"/>
+        <activity android:name=".demo.HandlerDemoActivity"/>
+        <activity android:name=".view.CustomViewActivity"/>
+        <activity android:name=".demo.webview.WebviewActivity"/>
+        <activity android:name=".demo.ListViewActivity"/>
+        <activity android:name=".demo.span.SpanDemoActivity"/>
+        <activity android:name=".demo.TextViewActivity"/>
+        <activity android:name=".demo.scroller.ScrollerActivity"/>
+        <activity android:name=".page.FragmentMainActivity"/>
+        <activity android:name=".ipc.aidl.AIDLActivity"/>
+
+        <service android:name=".ipc.aidl.BookService"/>
+
+        <activity android:name=".plugin.hook.HookActivity"/>
+        <activity android:name=".plugin.hook.StubActivity"/>
+        <activity android:name=".kotlin.KotlinActivity">
+        </activity>
+        <activity android:name=".kotlin.AnotherKotlinActivity">
+        </activity>
     </application>
 
 </manifest>
