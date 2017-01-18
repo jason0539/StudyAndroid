@@ -17,6 +17,7 @@ import com.jason.workdemo.animation.AnimActivity;
 import com.jason.workdemo.animation.ScrollActivity;
 import com.jason.workdemo.demo.ListViewActivity;
 import com.jason.workdemo.demo.TextViewActivity;
+import com.jason.workdemo.demo.rxbus.RxBusActivityA;
 import com.jason.workdemo.demo.scroller.ScrollerActivity;
 import com.jason.workdemo.demo.span.SpanDemoActivity;
 import com.jason.workdemo.demo.webview.WebviewActivity;
@@ -55,6 +56,7 @@ public class MainActivity extends Activity {
         dataList.add(TextViewActivity.class);
         dataList.add(AIDLActivity.class);
         dataList.add(KotlinActivity.class);
+        dataList.add(RxBusActivityA.class);
         dataList.add(HookActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
