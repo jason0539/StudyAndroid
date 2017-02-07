@@ -30,13 +30,13 @@ import java.io.File;
 public class HookActivity extends Activity {
     public static final String TAG = HookActivity.class.getSimpleName();
 
-    public static final String PLUGIN_APK_FILE_NAME = "app-debug.apk";
+    public static final String PLUGIN_APK_FILE_NAME = "plugin-debug.apk";
     public static final String PLUGIN_PACKAGE_NAME = "com.jason.demoplugin";
 
     private static final int PATCH_BASE_CLASS_LOADER = 1;
     private static final int CUSTOM_CLASS_LOADER = 2;
 
-    private static final int APK_LOAD_METHOD = PATCH_BASE_CLASS_LOADER;
+    private static final int APK_LOAD_METHOD = CUSTOM_CLASS_LOADER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
