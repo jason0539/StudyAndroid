@@ -17,6 +17,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".SecActivity"/>
+
+        <receiver android:name="com.jason.demoplugin.PluginBroadcastReceiver">
+            <intent-filter>
+                <action
+                    android:name="com.jason.demoplugin.broadcast"/>
+                <category
+                    android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
