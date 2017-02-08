@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+//继承AppCompat的方式导致classnotfound
+//public class MainActivity extends AppCompatActivity {
 public class MainActivity extends Activity {
 
     Button tvJump;
