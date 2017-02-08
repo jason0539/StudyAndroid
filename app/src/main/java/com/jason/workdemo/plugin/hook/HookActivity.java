@@ -16,6 +16,7 @@ import com.jason.common.utils.MLog;
 import com.jason.common.utils.ScreenUtils;
 import com.jason.workdemo.plugin.hook.ams.AmsHookHelper;
 import com.jason.workdemo.plugin.hook.binder.BinderHookHelper;
+import com.jason.workdemo.plugin.hook.broadcast.BroadcastLoadHelper;
 import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
 import com.jason.workdemo.plugin.hook.loadapk.BaseDexClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.loadapk.LoadedApkClassLoaderHookHelper;
@@ -115,7 +116,7 @@ public class HookActivity extends Activity {
         });
 
         Button btnLoadPluginApk = new Button(this);
-        btnLoadPluginApk.setText("加载插件apk");
+        btnLoadPluginApk.setText("唤起插件Activity");
         btnLoadPluginApk.setLayoutParams(buttonParams);
         linearLayout.addView(btnLoadPluginApk);
         btnLoadPluginApk.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +130,19 @@ public class HookActivity extends Activity {
                     intent.setComponent(new ComponentName(PLUGIN_PACKAGE_NAME, "com.jason.demoplugin.SecActivity"));
                 }
                 startActivity(intent);
+            }
+        });
+
+        Button btnSendBroadcast = new Button(this);
+        btnSendBroadcast.setText("发送广播给插件");
+        btnSendBroadcast.setLayoutParams(buttonParams);
+        linearLayout.addView(btnSendBroadcast);
+        btnSendBroadcast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("com.jason.demoplugin.broadcast");
+                sendBroadcast(intent);
             }
         });
 
@@ -147,16 +161,23 @@ public class HookActivity extends Activity {
 
         //提取插件apk（应该放在线程）
         PluginUtils.init(getApplicationContext());
-        PluginUtils.copyPluginApk(newBase, PLUGIN_APK_FILE_NAME);
+        File pluginFile = PluginUtils.copyPluginApk(newBase, PLUGIN_APK_FILE_NAME);
+
+        //加载插件中的类所使用的classLoader不同，CUSTOM_CLASS_LOADER方式需要使用custom的classloader才知道插件dex位置，PATCH_BASE_CLASS_LOADER方式则直接使用应用默认的classloader，因为插件dex已经并入宿主
+        ClassLoader pluginClassloader = null;
         if (APK_LOAD_METHOD == CUSTOM_CLASS_LOADER) {
             LoadedApkClassLoaderHookHelper.hookLoadedApkInActivityThread(getFileStreamPath(PLUGIN_APK_FILE_NAME));
+            pluginClassloader = LoadedApkClassLoaderHookHelper.getClassLoader(PLUGIN_PACKAGE_NAME);
         } else if (APK_LOAD_METHOD == PATCH_BASE_CLASS_LOADER) {
             File dexFile = getFileStreamPath(PLUGIN_APK_FILE_NAME);
 //            File optDexFile = getFileStreamPath(PLUGIN_APK_FILE_NAME);
             String optDexPath = PluginUtils.getPluginOptDexDir(PLUGIN_PACKAGE_NAME) + File.separator + "odex";
             File optDexFile = new File(optDexPath);
             BaseDexClassLoaderHookHelper.patchClassLoader(getClassLoader(), dexFile, optDexFile);
+            pluginClassloader = newBase.getClassLoader();
         }
+
+        BroadcastLoadHelper.loadBroadcastReceiver(newBase, pluginFile,pluginClassloader);
     }
 
 }

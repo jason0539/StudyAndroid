@@ -133,7 +133,8 @@ public class FileUtils {
         }
     }
 
-    public static void extractAssetsFile(Context context, String sourceFileName, String destPath) {
+    public static boolean extractAssetsFile(Context context, String sourceFileName, String destPath) {
+        boolean result = false;
         AssetManager assetManager = context.getAssets();
         InputStream inputStream = null;
         FileOutputStream fileOutputStream = null;
@@ -150,11 +151,14 @@ public class FileUtils {
                 fileOutputStream.write(buffer, 0, length);
             }
             fileOutputStream.flush();
+            result = true;
         } catch (Exception e) {
             e.printStackTrace();
+            result = false;
         } finally {
             closeIO(inputStream, fileOutputStream);
         }
+        return result;
     }
 
     public static void downloadFile(Context context, String fileurl) {

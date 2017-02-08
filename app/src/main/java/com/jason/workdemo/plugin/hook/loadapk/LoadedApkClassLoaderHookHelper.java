@@ -18,7 +18,8 @@ import java.util.Map;
 public class LoadedApkClassLoaderHookHelper {
     public static final String TAG = LoadedApkClassLoaderHookHelper.class.getSimpleName();
 
-    public static Map<String, Object> sLoadedApk = new HashMap<>();
+    private static Map<String, Object> sLoadedApk = new HashMap<>();
+    private static Map<String, ClassLoader> sClassLoader = new HashMap<>();
 
     public static final void hookLoadedApkInActivityThread(File apkFile) {
         try {
@@ -59,6 +60,7 @@ public class LoadedApkClassLoaderHookHelper {
 
             // 由于是弱引用, 因此我们必须在某个地方存一份, 不然容易被GC; 那么就前功尽弃了.
             sLoadedApk.put(applicationInfo.packageName, loadedApk);
+            sClassLoader.put(applicationInfo.packageName, classLoader);
 
             //放入ActivityThread的缓存
             WeakReference weakReference = new WeakReference(loadedApk);
@@ -105,5 +107,9 @@ public class LoadedApkClassLoaderHookHelper {
         applicationInfo.sourceDir = apkPath;
         applicationInfo.publicSourceDir = apkPath;
         return applicationInfo;
+    }
+
+    public static final ClassLoader getClassLoader(String packageName) {
+        return sClassLoader.get(packageName);
     }
 }

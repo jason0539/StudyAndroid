@@ -19,11 +19,12 @@ public class PluginUtils {
         mContext = context;
     }
 
-    public static final void copyPluginApk(Context context, String fileName) {
+    public static final File copyPluginApk(Context context, String fileName) {
         MLog.d(MLog.TAG_HOOK, TAG + "->" + "copyPluginApk ");
         // 目录/data/user/0等同于/data/data/
-        File destPath = context.getFileStreamPath(fileName);
-        FileUtils.extractAssetsFile(context, fileName, destPath.getAbsolutePath());
+        File destFile = context.getFileStreamPath(fileName);
+        FileUtils.extractAssetsFile(context, fileName, destFile.getAbsolutePath());
+        return destFile;
     }
 
     /**

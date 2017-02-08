@@ -12,7 +12,7 @@ public class PluginClassLoader extends DexClassLoader {
 
     public PluginClassLoader(String dexPath, String optimizedDirectory, String libraryPath, ClassLoader parent) {
         super(dexPath, optimizedDirectory, libraryPath, parent);
-        MLog.d(MLog.TAG_HOOK, TAG + "->" + "PluginClassLoader ");
+        MLog.d(MLog.TAG_HOOK, TAG + "->" + "PluginClassLoader dexPath = " + dexPath);
     }
 
     @Override
