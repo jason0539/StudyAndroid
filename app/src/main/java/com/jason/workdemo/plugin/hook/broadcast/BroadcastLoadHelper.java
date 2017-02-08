@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * Created by liuzhenhui on 2017/1/14.
+ * http://weishu.me/2016/04/05/understand-plugin-framework-classloader/
  */
 
 public class BroadcastLoadHelper {
