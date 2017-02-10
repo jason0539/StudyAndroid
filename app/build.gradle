@@ -55,6 +55,8 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+//以下为自定义gradle插件
 buildscript {
     repositories {
         maven {
@@ -66,13 +68,13 @@ buildscript {
     }
 }
 apply plugin: 'plugin.param'
+apply plugin: 'plugin.test'
 
 pluginExt {
     param1 = 'app param1'
     param2 = 'app param2'
-    nestExt{
-        nestParam1='app nestParam1'
-        nestParam2='app nestParam2'
-
+    nestExt {
+        nestParam1 = 'app nestParam1'
+        nestParam2 = 'app nestParam2'
     }
 }

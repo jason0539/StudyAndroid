@@ -1,4 +1,4 @@
-package com.jason.demo.gradle
+package com.jason.demo.gradle.test
 
 import org.gradle.BuildListener
 import org.gradle.BuildResult
