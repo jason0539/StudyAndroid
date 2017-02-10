@@ -55,3 +55,14 @@ dependencies {
 repositories {
     mavenCentral()
 }
+buildscript {
+    repositories {
+        maven {
+            url uri('../gradle-plugin/repo')
+        }
+    }
+    dependencies {
+        classpath 'com.jason.demo.gradle:gradle-plugin:1.0.0'
+    }
+}
+apply plugin: 'plugin.test'
