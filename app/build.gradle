@@ -3,6 +3,9 @@ apply plugin: 'android-apt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+Properties props = new Properties()
+props.load(new FileInputStream(file(rootProject.file("signing.properties"))))
+
 android {
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
@@ -14,10 +17,22 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            keyAlias props['signing.alias']
+            keyPassword props['signing.password']
+            storeFile file(rootProject.file("android.jks"))
+            storePassword props['signing.password']
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
     sourceSets {
