@@ -65,4 +65,14 @@ buildscript {
         classpath 'com.jason.demo.gradle:gradle-plugin:1.0.0'
     }
 }
-apply plugin: 'plugin.test'
+apply plugin: 'plugin.param'
+
+pluginExt {
+    param1 = 'app param1'
+    param2 = 'app param2'
+    nestExt{
+        nestParam1='app nestParam1'
+        nestParam2='app nestParam2'
+
+    }
+}
