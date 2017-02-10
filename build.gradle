@@ -1,5 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+ext{
+    //全局变量控制，可在module中的build.gradle文件通过rootProject.globalConfig.xxx开头来使用
+    //https://gold.xitu.io/post/589d1036b123db16a3c6d6d1
+    buildToolsVersion = '25.0.0'
+}
+
 buildscript {
     ext.kotlin_version = '1.0.6'
     repositories {

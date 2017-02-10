@@ -8,7 +8,7 @@ props.load(new FileInputStream(file(rootProject.file("signing.properties"))))
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.jason.workdemo"
