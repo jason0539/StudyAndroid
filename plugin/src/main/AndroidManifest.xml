@@ -26,6 +26,8 @@
                     android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
+        <service android:name="com.jason.demoplugin.PluginService1"/>
+        <service android:name="com.jason.demoplugin.PluginService2"/>
     </application>
 
 </manifest>

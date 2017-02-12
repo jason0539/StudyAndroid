@@ -20,4 +20,31 @@
         android:background="#2AC233"
         android:text="点击发送广播"/>
 
+    <Button
+        android:id="@+id/tv_service1_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FACC2E"
+        android:text="启动Service1"/>
+
+    <Button
+        android:id="@+id/tv_service2_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#2AC233"
+        android:text="启动Service2"/>
+
+    <Button
+        android:id="@+id/tv_service1_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FACC2E"
+        android:text="停止Service1"/>
+
+    <Button
+        android:id="@+id/tv_service2_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#2AC233"
+        android:text="停止Service2"/>
 </LinearLayout>

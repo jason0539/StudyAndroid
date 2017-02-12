@@ -1,6 +1,7 @@
 package com.jason.demoplugin;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,6 +38,54 @@ public class SecActivity extends Activity {
             }
         });
         linearLayout.addView(sendBroadcast);
+
+        Button startService1 = new Button(this);
+        startService1.setBackgroundColor(Color.parseColor("#FACC2E"));
+        startService1.setText("启动Service1");
+        startService1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent().setComponent(
+                        new ComponentName("com.jason.demoplugin", "com.jason.demoplugin.PluginService1")));
+            }
+        });
+        linearLayout.addView(startService1);
+
+        Button startService2 = new Button(this);
+        startService2.setBackgroundColor(Color.parseColor("#FACC2E"));
+        startService2.setText("启动Service2");
+        startService2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent().setComponent(
+                        new ComponentName("com.jason.demoplugin", "com.jason.demoplugin.PluginService2")));
+            }
+        });
+        linearLayout.addView(startService2);
+
+        Button stopService1 = new Button(this);
+        stopService1.setBackgroundColor(Color.parseColor("#FACC2E"));
+        stopService1.setText("停止Service1");
+        stopService1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(new Intent().setComponent(
+                        new ComponentName("com.jason.demoplugin", "com.jason.demoplugin.PluginService1")));
+            }
+        });
+        linearLayout.addView(stopService1);
+
+        Button stopService2 = new Button(this);
+        stopService2.setBackgroundColor(Color.parseColor("#FACC2E"));
+        stopService2.setText("停止Service2");
+        stopService2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(new Intent().setComponent(
+                        new ComponentName("com.jason.demoplugin", "com.jason.demoplugin.PluginService2")));
+            }
+        });
+        linearLayout.addView(stopService2);
 
         setContentView(linearLayout);
     }
