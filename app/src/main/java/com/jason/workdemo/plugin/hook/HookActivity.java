@@ -21,6 +21,7 @@ import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
 import com.jason.workdemo.plugin.hook.loadapk.BaseDexClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.loadapk.LoadedApkClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
+import com.jason.workdemo.plugin.hook.service.ServiceLoadHelper;
 
 import java.io.File;
 
@@ -146,6 +147,18 @@ public class HookActivity extends Activity {
             }
         });
 
+        Button btnStartService1 = new Button(this);
+        btnStartService1.setText("启动Service1");
+        btnStartService1.setLayoutParams(buttonParams);
+        linearLayout.addView(btnStartService1);
+        btnStartService1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent().setComponent(
+                        new ComponentName("com.jason.demoplugin", "com.jason.demoplugin.PluginService1")));
+            }
+        });
+
         setContentView(linearLayout);
     }
 
@@ -165,9 +178,11 @@ public class HookActivity extends Activity {
 
         //加载插件中的类所使用的classLoader不同，CUSTOM_CLASS_LOADER方式需要使用custom的classloader才知道插件dex位置，PATCH_BASE_CLASS_LOADER方式则直接使用应用默认的classloader，因为插件dex已经并入宿主
         ClassLoader pluginClassloader = null;
+        boolean needReplacePackageName = false;
         if (APK_LOAD_METHOD == CUSTOM_CLASS_LOADER) {
             LoadedApkClassLoaderHookHelper.hookLoadedApkInActivityThread(getFileStreamPath(PLUGIN_APK_FILE_NAME));
             pluginClassloader = LoadedApkClassLoaderHookHelper.getClassLoader(PLUGIN_PACKAGE_NAME);
+            needReplacePackageName = false;
         } else if (APK_LOAD_METHOD == PATCH_BASE_CLASS_LOADER) {
             File dexFile = getFileStreamPath(PLUGIN_APK_FILE_NAME);
 //            File optDexFile = getFileStreamPath(PLUGIN_APK_FILE_NAME);
@@ -175,9 +190,11 @@ public class HookActivity extends Activity {
             File optDexFile = new File(optDexPath);
             BaseDexClassLoaderHookHelper.patchClassLoader(getClassLoader(), dexFile, optDexFile);
             pluginClassloader = newBase.getClassLoader();
+            needReplacePackageName = true;
         }
 
         BroadcastLoadHelper.loadBroadcastReceiver(newBase, pluginFile,pluginClassloader);
+        ServiceLoadHelper.loadService(newBase, pluginFile, needReplacePackageName);
     }
 
 }

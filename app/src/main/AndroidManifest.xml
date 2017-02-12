@@ -39,6 +39,7 @@
         <activity android:name=".page.FragmentMainActivity"/>
         <activity android:name=".ipc.aidl.AIDLActivity"/>
         <service android:name=".ipc.aidl.BookService"/>
+        <service android:name=".plugin.hook.service.ProxyService"/>
         <activity android:name=".plugin.hook.HookActivity"/>
         <activity android:name=".plugin.hook.StubActivity"/>
         <activity android:name=".kotlin.KotlinActivity"/>

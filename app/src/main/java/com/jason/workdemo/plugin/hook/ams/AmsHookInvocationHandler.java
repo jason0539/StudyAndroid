@@ -2,9 +2,13 @@ package com.jason.workdemo.plugin.hook.ams;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Pair;
 
 import com.jason.common.utils.MLog;
 import com.jason.workdemo.plugin.hook.StubActivity;
+import com.jason.workdemo.plugin.hook.service.ProxyService;
+import com.jason.workdemo.plugin.hook.service.ServiceLoadHelper;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -15,6 +19,7 @@ import java.lang.reflect.Method;
 public class AmsHookInvocationHandler implements InvocationHandler {
     public static final String TAG = AmsHookInvocationHandler.class.getSimpleName();
 
+    public static final String HOST_PACKAGE_NAME = "com.jason.workdemo";
     public static final String EXTRA_TARGET_INTENT = "extra_target_intent";
 
     private Object mBase;
@@ -36,33 +41,70 @@ public class AmsHookInvocationHandler implements InvocationHandler {
             // Activity.NonConfigurationInstances lastNonConfigurationInstances) {
 
             // 找到参数里面的第一个Intent 对象
-            Intent raw;
-            int index = 0;
+            Pair<Integer,Intent> firstIntentPair = findFirstIntentOfArgs(args);
+            int indexOfFirstIntent = firstIntentPair.first;
+            Intent rawIntent = firstIntentPair.second;
 
-            for (int i = 0; i < args.length; i++) {
-                if (args[i] instanceof Intent) {
-                    index = i;
-                    break;
-                }
-            }
-            raw = (Intent) args[index];
-
-            if (raw.getComponent() != null) {
+            if (rawIntent.getComponent() != null) {
                 MLog.d(MLog.TAG_HOOK, TAG+"->" + "invoke 启动实名Activity，替换其中的Component");
                 Intent fakeIntent = new Intent();
                 // 这里包名直接写死,如果再插件里,不同的插件有不同的包  传递插件的包名即可
-                String targetPackage = "com.jason.workdemo";
+                String targetPackage = HOST_PACKAGE_NAME;
                 ComponentName componentName = new ComponentName(targetPackage, StubActivity.class.getCanonicalName());
                 // 其实不需要使用预先注册的activity，直接使用宿主本身存在的activity就可以
 //                ComponentName componentName = new ComponentName(targetPackage, MainActivity.class.getCanonicalName());
                 fakeIntent.setComponent(componentName);
-                fakeIntent.putExtra(EXTRA_TARGET_INTENT, raw);
+                fakeIntent.putExtra(EXTRA_TARGET_INTENT, rawIntent);
 
-                args[index] = fakeIntent;
+                args[indexOfFirstIntent] = fakeIntent;
             } else {
                 MLog.d(MLog.TAG_HOOK, TAG+"->" + "invoke 非实名启动activity，不需要替换");
             }
         }
+        if ("startService".equals(method.getName())) {
+            //API 23:
+            // public ComponentName startService(IApplicationThread caller, Intent service,
+            //        String resolvedType, int userId) throws RemoteException
+
+            //找到参数里面的第一个Intent对象
+            Pair<Integer,Intent> firstIntentPair = findFirstIntentOfArgs(args);
+            int indexOfFirstIntent = firstIntentPair.first;
+            Intent rawIntent = firstIntentPair.second;
+            Intent fakeIntent = new Intent();
+
+            //代理Service的包名，也就是我们自己的包名
+            String targetPackage = HOST_PACKAGE_NAME;
+
+            //把要启动的Service替换为ProxyService，让ProxyService接收生命周期回掉
+            ComponentName componentName = new ComponentName(targetPackage, ProxyService.class.getName());
+            fakeIntent.setComponent(componentName);
+
+            //把我们原始要启动的TargetService先存起来
+            fakeIntent.putExtra(EXTRA_TARGET_INTENT,rawIntent);
+
+            //替换掉Intent，欺骗AMS
+            args[indexOfFirstIntent] = fakeIntent;
+        }
+
+        if ("stopService".equals(method.getName())) {
+            // public int stopService(IApplicationThread caller, Intent service, String resolvedType, int userId) throws RemoteException
+            Intent rawIntent = findFirstIntentOfArgs(args).second;
+            if (!TextUtils.equals(HOST_PACKAGE_NAME,rawIntent.getComponent().getPackageName())) {
+                // 插件的intent才做hook
+                return ServiceLoadHelper.stopService(rawIntent);
+            }
+        }
         return method.invoke(mBase, args);
+    }
+
+    private Pair<Integer, Intent> findFirstIntentOfArgs(Object[] args) {
+        int index = 0;
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof Intent) {
+                index = i;
+                break;
+            }
+        }
+        return Pair.create(index, (Intent)args[index]);
     }
 }
