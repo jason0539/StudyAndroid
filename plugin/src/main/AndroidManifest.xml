@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".SecActivity"/>
 
-        <receiver android:name="com.jason.demoplugin.BroadcastReceiverInPlugin">
+        <receiver android:name="com.jason.demoplugin.PluginBroadcastReceiver">
             <intent-filter>
                 <action
                     android:name="com.jason.demoplugin.broadcast"/>
