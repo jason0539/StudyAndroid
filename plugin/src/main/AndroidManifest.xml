@@ -28,6 +28,10 @@
         </receiver>
         <service android:name="com.jason.demoplugin.PluginService1"/>
         <service android:name="com.jason.demoplugin.PluginService2"/>
+        <provider
+            android:exported="true"
+            android:authorities="com.jason.demoplugin.provider"
+            android:name="com.jason.demoplugin.PluginContentProvider"/>
     </application>
 
 </manifest>

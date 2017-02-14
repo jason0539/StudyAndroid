@@ -56,4 +56,20 @@
         android:layout_toRightOf="@id/tv_service2_start"
         android:background="#2AC233"
         android:text="停止Service2"/>
+
+    <Button
+        android:id="@+id/tv_provider_insert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_service2_stop"
+        android:background="#FACC2E"
+        android:text="插入数据到ContentProVider"/>
+
+    <Button
+        android:id="@+id/tv_provider_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_provider_insert"
+        android:background="#2AC233"
+        android:text="查询ContentProvider数据"/>
 </RelativeLayout>
