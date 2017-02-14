@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,6 +17,7 @@
         android:id="@+id/tv_broadcast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tv_jump"
         android:background="#2AC233"
         android:text="点击发送广播"/>
 
@@ -24,27 +25,35 @@
         android:id="@+id/tv_service1_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tv_broadcast"
         android:background="#FACC2E"
         android:text="启动Service1"/>
-
-    <Button
-        android:id="@+id/tv_service2_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#2AC233"
-        android:text="启动Service2"/>
 
     <Button
         android:id="@+id/tv_service1_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_service1_start"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@id/tv_service1_start"
         android:background="#FACC2E"
         android:text="停止Service1"/>
+
+    <Button
+        android:id="@+id/tv_service2_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_service1_start"
+        android:background="#2AC233"
+        android:text="启动Service2"/>
 
     <Button
         android:id="@+id/tv_service2_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_service2_start"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@id/tv_service2_start"
         android:background="#2AC233"
         android:text="停止Service2"/>
-</LinearLayout>
+</RelativeLayout>
