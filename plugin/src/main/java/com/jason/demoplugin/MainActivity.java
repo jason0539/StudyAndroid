@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
-                values.put(PluginContentProvider.PluginTable.PLUGIN_NAME, "test plugin mainActivity " + System.currentTimeMillis());
+                values.put(PluginContentProvider.PluginTable.PLUGIN_NAME, "plugin com.jason.demoplugin " + System.currentTimeMillis());
                 getContentResolver().insert(PluginContentProvider.PLUGIN_CONTENT_URI, values);
             }
         });
