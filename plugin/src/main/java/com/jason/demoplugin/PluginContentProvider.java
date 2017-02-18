@@ -48,6 +48,7 @@ public class PluginContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+        Log.d("TAG_HOOK", "PluginContentProvider -> onCreate");
         mDatabaseHelper = new DatabaseHelper(getContext());
         return true;
     }
@@ -55,6 +56,7 @@ public class PluginContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
+        Log.d("TAG_HOOK", "PluginContentProvider -> getType");
         return null;
     }
 
@@ -103,6 +105,7 @@ public class PluginContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        Log.d("TAG_HOOK", "PluginContentProvider -> delete");
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         String tableName;
 
@@ -128,6 +131,7 @@ public class PluginContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        Log.d("TAG_HOOK", "PluginContentProvider -> update");
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         Long now = Long.valueOf(System.currentTimeMillis());
 
@@ -214,10 +218,13 @@ public class PluginContentProvider extends ContentProvider {
 
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
+            Log.d("TAG_HOOK", "DatabaseHelper -> DatabaseHelper");
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            String path = db.getPath();
+            Log.d("TAG_HOOK", "DatabaseHelper -> onCreate : db.path = " + path);
             db.execSQL("CREATE TABLE IF NOT EXISTS " + PluginTable.TABLE_NAME + "("
                     + PluginTable._ID + " INTEGER PRIMARY KEY, "
                     + PluginTable.PLUGIN_NAME + " TEXT, "
@@ -227,6 +234,7 @@ public class PluginContentProvider extends ContentProvider {
 
         @Override
         public void onOpen(SQLiteDatabase db) {
+            Log.d("TAG_HOOK", "DatabaseHelper -> onOpen");
             db.execSQL("CREATE TABLE IF NOT EXISTS " + PluginTable.TABLE_NAME + "("
                     + PluginTable._ID + " INTEGER PRIMARY KEY, "
                     + PluginTable.PLUGIN_NAME + " TEXT, "
@@ -236,6 +244,7 @@ public class PluginContentProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.d("TAG_HOOK", "DatabaseHelper -> onUpgrade");
             //trick，直接删除重建
             db.execSQL("DROP TABLE IF EXISTS " + PluginTable.TABLE_NAME);
             onCreate(db);
