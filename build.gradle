@@ -3,7 +3,7 @@
 ext{
     //全局变量控制，可在module中的build.gradle文件通过rootProject.globalConfig.xxx开头来使用
     //https://gold.xitu.io/post/589d1036b123db16a3c6d6d1
-    buildToolsVersion = '25.0.0'
+    buildToolsVersion = '25.0.2'
 }
 
 buildscript {
@@ -12,7 +12,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0-beta2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
