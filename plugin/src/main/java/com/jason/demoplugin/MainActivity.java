@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Date;
+
 //继承AppCompat的方式导致classnotfound
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends Activity {
@@ -91,7 +93,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
-                values.put(PluginContentProvider.PluginTable.PLUGIN_NAME, "plugin com.jason.demoplugin " + System.currentTimeMillis());
+                values.put(PluginContentProvider.PluginTable.PLUGIN_NAME, "plugin com.jason.demoplugin " + new Date(System.currentTimeMillis()).toString());
                 getContentResolver().insert(PluginContentProvider.PLUGIN_CONTENT_URI, values);
             }
         });

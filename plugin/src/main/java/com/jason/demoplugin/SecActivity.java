@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Date;
+
 /**
  * Created by liuzhenhui on 2017/1/10.
  */
@@ -98,7 +100,7 @@ public class SecActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
-                values.put(PluginContentProvider.PluginTable.PLUGIN_NAME, "plugin com.jason.demoplugin " + System.currentTimeMillis());
+                values.put(PluginContentProvider.PluginTable.PLUGIN_NAME, "plugin com.jason.demoplugin " + new Date(System.currentTimeMillis()).toString());
                 getContentResolver().insert(PluginContentProvider.PLUGIN_CONTENT_URI, values);
             }
         });
