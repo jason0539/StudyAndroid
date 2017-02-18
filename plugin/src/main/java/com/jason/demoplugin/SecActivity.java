@@ -2,13 +2,17 @@ package com.jason.demoplugin;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /**
  * Created by liuzhenhui on 2017/1/10.
@@ -86,6 +90,41 @@ public class SecActivity extends Activity {
             }
         });
         linearLayout.addView(stopService2);
+
+        Button contentProviderInsert = new Button(this);
+        contentProviderInsert.setBackgroundColor(Color.parseColor("#FACC2E"));
+        contentProviderInsert.setText("ContentProvider插入");
+        contentProviderInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentValues values = new ContentValues();
+                values.put(PluginContentProvider.PluginTable.PLUGIN_NAME, "plugin com.jason.demoplugin " + System.currentTimeMillis());
+                getContentResolver().insert(PluginContentProvider.PLUGIN_CONTENT_URI, values);
+            }
+        });
+        linearLayout.addView(contentProviderInsert);
+
+        Button contentProviderQuery = new Button(this);
+        contentProviderQuery.setBackgroundColor(Color.parseColor("#FACC2E"));
+        contentProviderQuery.setText("ContentProvider查询");
+        contentProviderQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor cursor = getContentResolver().query(PluginContentProvider.PLUGIN_CONTENT_URI, null, null, null, null);
+                if (cursor != null) {
+                    if (cursor.moveToFirst()) {
+                        int index = cursor.getColumnIndex(PluginContentProvider.PluginTable.PLUGIN_NAME);
+                        if (index != -1) {
+                            String pluginName = cursor.getString(index);
+                            Log.d("TAG_HOOK", "PluginContentProvider -> query : pluginName = " + pluginName);
+                            Toast.makeText(SecActivity.this, "ContentProvider 查询 pluginName = " + pluginName, Toast.LENGTH_SHORT);
+                        }
+                    }
+                    cursor.close();
+                }
+            }
+        });
+        linearLayout.addView(contentProviderQuery);
 
         setContentView(linearLayout);
     }
