@@ -2,21 +2,26 @@ package com.jason.workdemo.plugin.hook;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.ScreenUtils;
 import com.jason.workdemo.plugin.hook.ams.AmsHookHelper;
 import com.jason.workdemo.plugin.hook.binder.BinderHookHelper;
 import com.jason.workdemo.plugin.hook.broadcast.BroadcastLoadHelper;
+import com.jason.workdemo.plugin.hook.contentprovider.ContentProviderLoadHelper;
 import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
 import com.jason.workdemo.plugin.hook.loadapk.BaseDexClassLoaderHookHelper;
 import com.jason.workdemo.plugin.hook.loadapk.LoadedApkClassLoaderHookHelper;
@@ -38,7 +43,7 @@ public class HookActivity extends Activity {
     private static final int PATCH_BASE_CLASS_LOADER = 1;
     private static final int CUSTOM_CLASS_LOADER = 2;
 
-    private static final int APK_LOAD_METHOD = CUSTOM_CLASS_LOADER;
+    private static final int APK_LOAD_METHOD = PATCH_BASE_CLASS_LOADER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +164,41 @@ public class HookActivity extends Activity {
             }
         });
 
+        final String PLUGIN_NAME = "plugin_name";
+        final Uri PLUGIN_CONTENT_URI = Uri.parse("content://com.jason.demoplugin.provider/plugin");
+        Button contentProviderInsert = new Button(this);
+        contentProviderInsert.setText("ContentProvider插入");
+        contentProviderInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentValues values = new ContentValues();
+                values.put(PLUGIN_NAME, "plugin com.jason.demoplugin " + System.currentTimeMillis());
+                getContentResolver().insert(PLUGIN_CONTENT_URI, values);
+            }
+        });
+        linearLayout.addView(contentProviderInsert);
+
+        Button contentProviderQuery = new Button(this);
+        contentProviderQuery.setText("ContentProvider查询");
+        contentProviderQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor cursor = getContentResolver().query(PLUGIN_CONTENT_URI, null, null, null, null);
+                if (cursor != null) {
+                    if (cursor.moveToFirst()) {
+                        int index = cursor.getColumnIndex(PLUGIN_NAME);
+                        if (index != -1) {
+                            String pluginName = cursor.getString(index);
+                            Log.d("TAG_HOOK", "PluginContentProvider -> query : pluginName = " + pluginName);
+                            Toast.makeText(HookActivity.this, "ContentProvider 查询 pluginName = " + pluginName, Toast.LENGTH_SHORT);
+                        }
+                    }
+                    cursor.close();
+                }
+            }
+        });
+        linearLayout.addView(contentProviderQuery);
+
         setContentView(linearLayout);
     }
 
@@ -195,6 +235,7 @@ public class HookActivity extends Activity {
 
         BroadcastLoadHelper.loadBroadcastReceiver(newBase, pluginFile,pluginClassloader);
         ServiceLoadHelper.loadService(newBase, pluginFile, needReplacePackageName);
+        ContentProviderLoadHelper.installContentProvider(newBase, pluginFile,needReplacePackageName);
     }
 
 }
