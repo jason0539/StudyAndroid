@@ -2,6 +2,7 @@ package com.jason.workdemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jason.common.utils.MLog;
+import com.jason.common.utils.MToast;
 import com.jason.workdemo.animation.AnimActivity;
 import com.jason.workdemo.animation.ScrollActivity;
 import com.jason.workdemo.demo.ListViewActivity;
@@ -36,10 +38,13 @@ import java.util.List;
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final int WRITE_REQUEST_CODE = 110;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MToast.init(getApplicationContext());
 
         ListView mListView = (ListView) findViewById(R.id.lv_main_list);
 
@@ -68,6 +73,21 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+//        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+//        requestPermissions(permissions, WRITE_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case WRITE_REQUEST_CODE:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    MToast.showSuccess("权限获取成功");
+                } else{
+                    MToast.show("权限获取失败");
+                }
+                break;
+        }
     }
 
     class SimpleAdapter extends BaseAdapter {
