@@ -219,6 +219,9 @@ public class PluginContentProvider extends ContentProvider {
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             Log.d("TAG_HOOK", "DatabaseHelper -> DatabaseHelper");
+
+            String databasePath = context.getDatabasePath(DATABASE_NAME).getPath();
+            Log.d("TAG_HOOK", "DatabaseHelper -> DatabaseHelper path = " + databasePath);
         }
 
         @Override

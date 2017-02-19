@@ -106,6 +106,14 @@ public class LoadedApkClassLoaderHookHelper {
 
         applicationInfo.sourceDir = apkPath;
         applicationInfo.publicSourceDir = apkPath;
+
+        // API 23为例，在LoadedApk的141行，需要使用applicationInfo.dataDir，原因如下
+        // 在使用ContentProvider时，会用到SQLiteOpenHelper，后者默认的数据库目录是通过Context.getDatabasePath得到的，
+        // 而这个方法最终正常应该调用的是LoadedApk.getDataDirFile，这个方法返回的变量是LoadedApk构造方法中从applicationInfo.dataDir赋值得到的
+        // 如果这里不传，由于dataDir为空，导致LoadedApk.getDataDirFile返回空，最终会使用默认的/data/system作为目录，该目录应用没有权限，最终导致
+        // SQLiteDatabase: Failed to open database '/data/system/xxxx.db'
+        // android.database.sqlite.SQLiteCantOpenDatabaseException: unknown error (code 14): Could not open database
+        applicationInfo.dataDir = "/data/data/com.jason.workdemo";
         return applicationInfo;
     }
 

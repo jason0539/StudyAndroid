@@ -29,6 +29,7 @@ import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
 import com.jason.workdemo.plugin.hook.service.ServiceLoadHelper;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * Created by liuzhenhui on 2016/12/29.
@@ -43,7 +44,7 @@ public class HookActivity extends Activity {
     private static final int PATCH_BASE_CLASS_LOADER = 1;
     private static final int CUSTOM_CLASS_LOADER = 2;
 
-    private static final int APK_LOAD_METHOD = PATCH_BASE_CLASS_LOADER;
+    private static final int APK_LOAD_METHOD = CUSTOM_CLASS_LOADER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +173,7 @@ public class HookActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
-                values.put(PLUGIN_NAME, "plugin com.jason.demoplugin " + System.currentTimeMillis());
+                values.put(PLUGIN_NAME, "plugin com.jason.demoplugin " + new Date(System.currentTimeMillis()).toString());
                 getContentResolver().insert(PLUGIN_CONTENT_URI, values);
             }
         });
