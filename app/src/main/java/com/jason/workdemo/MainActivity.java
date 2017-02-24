@@ -25,6 +25,7 @@ import com.jason.workdemo.demo.span.SpanDemoActivity;
 import com.jason.workdemo.demo.webview.WebviewActivity;
 import com.jason.workdemo.ipc.aidl.AIDLActivity;
 import com.jason.workdemo.kotlin.KotlinActivity;
+import com.jason.workdemo.opengl.FirstOpenGLProjectActivity;
 import com.jason.workdemo.page.FragmentMainActivity;
 import com.jason.workdemo.plugin.hook.HookActivity;
 import com.jason.workdemo.view.CustomViewActivity;
@@ -63,6 +64,7 @@ public class MainActivity extends Activity {
         dataList.add(KotlinActivity.class);
         dataList.add(RxBusActivityA.class);
         dataList.add(HookActivity.class);
+        dataList.add(FirstOpenGLProjectActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
