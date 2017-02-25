@@ -1,1 +1,1 @@
-include ':app', ':common', ':plugin', ':gradle-plugin', ':opengl'
+include ':app', ':common', ':plugin', ':gradle-plugin', ':opengl', ':plugin-framework'

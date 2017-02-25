@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/gradle-plugin" />
             <option value="$PROJECT_DIR$/opengl" />
             <option value="$PROJECT_DIR$/plugin" />
+            <option value="$PROJECT_DIR$/plugin-framework" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
