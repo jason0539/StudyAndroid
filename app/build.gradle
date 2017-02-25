@@ -57,10 +57,6 @@ dependencies {
 
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     compile project(':common')
-    compile project(':opengl')
-}
-repositories {
-    mavenCentral()
 }
 
 //以下为自定义gradle插件
