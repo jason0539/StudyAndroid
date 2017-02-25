@@ -2,12 +2,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="large">25dp</dimen>//帖子标题
-    <dimen name="middle">17dp</dimen>//导航栏标题、35*35用户名称,如 jam模块名称、高度大于44pt button 上的文字
-
-    <dimen name="normal">15dp</dimen>//大面积段落信息展示,如 j帖子详情页里面的段落信息
-
-    <dimen name="small">13dp</dimen>//豆腐块 帖子标题,段落信息
-    <dimen name="tiny">10dp</dimen>//最小文字大小，点赞数累计
 
 </resources>

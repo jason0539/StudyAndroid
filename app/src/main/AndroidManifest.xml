@@ -36,7 +36,7 @@
         <activity android:name=".demo.span.SpanDemoActivity"/>
         <activity android:name=".demo.TextViewActivity"/>
         <activity android:name=".demo.scroller.ScrollerActivity"/>
-        <activity android:name=".page.FragmentMainActivity"/>
+        <activity android:name="com.lzh.demo.fragment.FragmentMainActivity"/>
         <activity android:name=".ipc.aidl.AIDLActivity"/>
         <service android:name=".ipc.aidl.BookService"/>
         <activity android:name=".kotlin.KotlinActivity"/>
