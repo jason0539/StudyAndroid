@@ -15,20 +15,13 @@ import android.widget.TextView;
 
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.MToast;
-import com.jason.workdemo.animation.AnimActivity;
-import com.jason.workdemo.animation.ScrollActivity;
-import com.jason.workdemo.demo.ListViewActivity;
 import com.jason.workdemo.demo.TextViewActivity;
 import com.jason.workdemo.demo.rxbus.RxBusActivityA;
-import com.jason.workdemo.demo.scroller.ScrollerActivity;
-import com.jason.workdemo.demo.span.SpanDemoActivity;
-import com.jason.workdemo.demo.webview.WebviewActivity;
 import com.jason.workdemo.ipc.aidl.AIDLActivity;
 import com.jason.workdemo.kotlin.KotlinActivity;
-import com.jason.workdemo.opengl.FirstOpenGLProjectActivity;
-import com.jason.workdemo.page.FragmentMainActivity;
 import com.jason.workdemo.plugin.hook.HookActivity;
 import com.jason.workdemo.view.CustomViewActivity;
+import com.lzh.demo.opengl.AirHockeyActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,20 +44,20 @@ public class MainActivity extends Activity {
 
         final List<Class> dataList = new ArrayList<>();
         dataList.add(CustomViewActivity.class);
-        dataList.add(AnimActivity.class);
-        dataList.add(ScrollActivity.class);
-        dataList.add(ListViewActivity.class);
-        dataList.add(SpanDemoActivity.class);
-        dataList.add(TextViewActivity.class);
-        dataList.add(ScrollerActivity.class);
-        dataList.add(FragmentMainActivity.class);
-        dataList.add(WebviewActivity.class);
+//        dataList.add(AnimActivity.class);
+//        dataList.add(ScrollActivity.class);
+//        dataList.add(ListViewActivity.class);
+//        dataList.add(SpanDemoActivity.class);
+//        dataList.add(TextViewActivity.class);
+//        dataList.add(ScrollerActivity.class);
+//        dataList.add(FragmentMainActivity.class);
+//        dataList.add(WebviewActivity.class);
         dataList.add(TextViewActivity.class);
         dataList.add(AIDLActivity.class);
         dataList.add(KotlinActivity.class);
         dataList.add(RxBusActivityA.class);
         dataList.add(HookActivity.class);
-        dataList.add(FirstOpenGLProjectActivity.class);
+        dataList.add(AirHockeyActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

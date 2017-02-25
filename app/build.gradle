@@ -65,7 +65,8 @@ dependencies {
     //RxBinding
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
-    compile project(path: ':common')
+    compile project(':common')
+    compile project(':opengl')
 }
 repositories {
     mavenCentral()
