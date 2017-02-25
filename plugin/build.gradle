@@ -39,7 +39,7 @@ afterEvaluate {
             from(buildDir.absolutePath + '/outputs/apk/') {
                 include project.name + '-' + 'debug' + '.apk'
             }
-            into(project(':app').getProjectDir().absolutePath + '/src/main/assets/')
+            into(project(':plugin-framework').getProjectDir().absolutePath + '/src/main/assets/')
         }
     }
 }

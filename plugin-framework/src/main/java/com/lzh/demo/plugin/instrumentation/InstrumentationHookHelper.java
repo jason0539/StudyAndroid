@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.instrumentation;
+package com.lzh.demo.plugin.instrumentation;
 
 import android.app.Activity;
 import android.app.Instrumentation;

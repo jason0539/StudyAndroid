@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.broadcast;
+package com.lzh.demo.plugin.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

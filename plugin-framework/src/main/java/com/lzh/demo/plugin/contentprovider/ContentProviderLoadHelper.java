@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.contentprovider;
+package com.lzh.demo.plugin.contentprovider;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

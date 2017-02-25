@@ -19,7 +19,6 @@ import com.jason.workdemo.demo.TextViewActivity;
 import com.jason.workdemo.demo.rxbus.RxBusActivityA;
 import com.jason.workdemo.ipc.aidl.AIDLActivity;
 import com.jason.workdemo.kotlin.KotlinActivity;
-import com.jason.workdemo.plugin.hook.HookActivity;
 import com.jason.workdemo.view.CustomViewActivity;
 import com.lzh.demo.opengl.AirHockeyActivity;
 
@@ -56,7 +55,6 @@ public class MainActivity extends Activity {
         dataList.add(AIDLActivity.class);
         dataList.add(KotlinActivity.class);
         dataList.add(RxBusActivityA.class);
-        dataList.add(HookActivity.class);
         dataList.add(AirHockeyActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);

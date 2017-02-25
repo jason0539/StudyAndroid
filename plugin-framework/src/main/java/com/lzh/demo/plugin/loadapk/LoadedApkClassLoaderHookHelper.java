@@ -1,9 +1,10 @@
-package com.jason.workdemo.plugin.hook.loadapk;
+package com.lzh.demo.plugin.loadapk;
 
 import android.content.pm.ApplicationInfo;
 
 import com.jason.common.utils.MLog;
-import com.jason.workdemo.plugin.hook.PluginUtils;
+import com.lzh.demo.plugin.PluginUtils;
+import com.lzh.demo.plugin.ams.AmsHookInvocationHandler;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -113,7 +114,7 @@ public class LoadedApkClassLoaderHookHelper {
         // 如果这里不传，由于dataDir为空，导致LoadedApk.getDataDirFile返回空，最终会使用默认的/data/system作为目录，该目录应用没有权限，最终导致
         // SQLiteDatabase: Failed to open database '/data/system/xxxx.db'
         // android.database.sqlite.SQLiteCantOpenDatabaseException: unknown error (code 14): Could not open database
-        applicationInfo.dataDir = "/data/data/com.jason.workdemo";
+        applicationInfo.dataDir = "/data/data/"+ AmsHookInvocationHandler.HOST_PACKAGE_NAME;
         return applicationInfo;
     }
 

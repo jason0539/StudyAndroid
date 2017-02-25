@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.ams;
+package com.lzh.demo.plugin.ams;
 
 import android.os.Handler;
 

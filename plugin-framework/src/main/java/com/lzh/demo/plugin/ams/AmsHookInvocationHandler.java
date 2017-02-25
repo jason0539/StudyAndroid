@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.ams;
+package com.lzh.demo.plugin.ams;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -6,9 +6,9 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.jason.common.utils.MLog;
-import com.jason.workdemo.plugin.hook.StubActivity;
-import com.jason.workdemo.plugin.hook.service.ProxyService;
-import com.jason.workdemo.plugin.hook.service.ServiceLoadHelper;
+import com.lzh.demo.plugin.StubActivity;
+import com.lzh.demo.plugin.service.ProxyService;
+import com.lzh.demo.plugin.service.ServiceLoadHelper;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -19,7 +19,8 @@ import java.lang.reflect.Method;
 public class AmsHookInvocationHandler implements InvocationHandler {
     public static final String TAG = AmsHookInvocationHandler.class.getSimpleName();
 
-    public static final String HOST_PACKAGE_NAME = "com.jason.workdemo";
+    //// TODO: 2017/2/25 应该动态获取宿主包名
+    public static final String HOST_PACKAGE_NAME = "com.lzh.demo.plugin";
     public static final String EXTRA_TARGET_INTENT = "extra_target_intent";
 
     private Object mBase;

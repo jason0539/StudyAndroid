@@ -39,13 +39,6 @@
         <activity android:name=".page.FragmentMainActivity"/>
         <activity android:name=".ipc.aidl.AIDLActivity"/>
         <service android:name=".ipc.aidl.BookService"/>
-        <service android:name=".plugin.hook.service.ProxyService"/>
-        <provider
-            android:authorities="com.jason.workdemo"
-            android:name=".plugin.hook.contentprovider.ProxyContentProvider"
-            android:exported="true"/>
-        <activity android:name=".plugin.hook.HookActivity"/>
-        <activity android:name=".plugin.hook.StubActivity"/>
         <activity android:name=".kotlin.KotlinActivity"/>
         <activity android:name=".kotlin.AnotherKotlinActivity"/>
         <activity android:name=".demo.rxbus.RxBusActivityA"/>

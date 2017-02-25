@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.service;
+package com.lzh.demo.plugin.service;
 
 import android.app.Service;
 import android.content.ComponentName;
@@ -10,7 +10,7 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import com.jason.common.utils.MLog;
-import com.jason.workdemo.plugin.hook.ams.AmsHookInvocationHandler;
+import com.lzh.demo.plugin.ams.AmsHookInvocationHandler;
 
 import java.io.File;
 import java.lang.ref.SoftReference;

@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook;
+package com.lzh.demo.plugin;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -18,15 +18,15 @@ import android.widget.Toast;
 
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.ScreenUtils;
-import com.jason.workdemo.plugin.hook.ams.AmsHookHelper;
-import com.jason.workdemo.plugin.hook.binder.BinderHookHelper;
-import com.jason.workdemo.plugin.hook.broadcast.BroadcastLoadHelper;
-import com.jason.workdemo.plugin.hook.contentprovider.ContentProviderLoadHelper;
-import com.jason.workdemo.plugin.hook.instrumentation.InstrumentationHookHelper;
-import com.jason.workdemo.plugin.hook.loadapk.BaseDexClassLoaderHookHelper;
-import com.jason.workdemo.plugin.hook.loadapk.LoadedApkClassLoaderHookHelper;
-import com.jason.workdemo.plugin.hook.pms.PmsHookHelper;
-import com.jason.workdemo.plugin.hook.service.ServiceLoadHelper;
+import com.lzh.demo.plugin.ams.AmsHookHelper;
+import com.lzh.demo.plugin.binder.BinderHookHelper;
+import com.lzh.demo.plugin.broadcast.BroadcastLoadHelper;
+import com.lzh.demo.plugin.contentprovider.ContentProviderLoadHelper;
+import com.lzh.demo.plugin.instrumentation.InstrumentationHookHelper;
+import com.lzh.demo.plugin.loadapk.BaseDexClassLoaderHookHelper;
+import com.lzh.demo.plugin.loadapk.LoadedApkClassLoaderHookHelper;
+import com.lzh.demo.plugin.pms.PmsHookHelper;
+import com.lzh.demo.plugin.service.ServiceLoadHelper;
 
 import java.io.File;
 import java.util.Date;
@@ -44,7 +44,7 @@ public class HookActivity extends Activity {
     private static final int PATCH_BASE_CLASS_LOADER = 1;
     private static final int CUSTOM_CLASS_LOADER = 2;
 
-    private static final int APK_LOAD_METHOD = CUSTOM_CLASS_LOADER;
+    private static final int APK_LOAD_METHOD = PATCH_BASE_CLASS_LOADER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

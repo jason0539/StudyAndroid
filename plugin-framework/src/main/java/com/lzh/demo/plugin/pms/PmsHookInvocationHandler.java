@@ -1,4 +1,4 @@
-package com.jason.workdemo.plugin.hook.pms;
+package com.lzh.demo.plugin.pms;
 
 import android.content.pm.PackageInfo;
 
