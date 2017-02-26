@@ -28,7 +28,7 @@ import static android.opengl.GLES20.glViewport;
 import static javax.microedition.khronos.opengles.GL10.GL_COLOR_BUFFER_BIT;
 import static javax.microedition.khronos.opengles.GL10.GL_FLOAT;
 import static javax.microedition.khronos.opengles.GL10.GL_LINES;
-import static javax.microedition.khronos.opengles.GL10.GL_TRIANGLES;
+import static javax.microedition.khronos.opengles.GL10.GL_TRIANGLE_FAN;
 
 /**
  * Created by liuzhenhui on 2017/2/24.
@@ -84,15 +84,13 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 //        };
         //对应到OpenGL坐标
         float[] tableVerticalsWithTriangles = {
-                // Triangle 1
-                -0.5f, -0.5f,
-                0.5f, 0.5f,
-                -0.5f, 0.5f,
-
-                // Triangle 2
+                //使用三角形扇，绘制四个三角形组成的桌子
+                0, 0,
                 -0.5f, -0.5f,
                 0.5f, -0.5f,
                 0.5f, 0.5f,
+                -0.5f, 0.5f,
+                -0.5f, -0.5f,
 
                 // Line 1
                 -0.5f, 0f,
@@ -163,8 +161,9 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
         //更新着色器代码中u_Color的值，白色RGBA
         glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
-        //第一个参数表示绘制三角形，第二个参数表示从顶点数组的开头处开始读定点，第三个参数表示读入6个顶点
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        //第一个参数表示绘制的形状，第二个参数表示从顶点数组的开头处开始读定点，第三个参数表示读入6个顶点
+        //绘制三角形扇
+        glDrawArrays(GL_TRIANGLE_FAN,0,6);
 
         //红色
         glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
