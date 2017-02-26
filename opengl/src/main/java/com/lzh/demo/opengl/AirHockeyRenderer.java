@@ -20,8 +20,6 @@ import static android.opengl.GLES20.GL_POINTS;
 import static android.opengl.GLES20.glClearColor;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glGetAttribLocation;
-import static android.opengl.GLES20.glGetUniformLocation;
-import static android.opengl.GLES20.glUniform4f;
 import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLES20.glViewport;
@@ -40,16 +38,20 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
     //坐标纬度（都是二维坐标）
     private static final int POSITION_COMPONENT_COUNT = 2;
+    //颜色纬度
+    private static final int COLOR_COMPONENT_COUNT = 3;
     //每个float占用的字节长度
     private static final int BYTES_PER_FLOAT = 4;
 
     //程序对象
     private int program;
 
-    //片段着色器中定义的颜色uniform
-    private static final String U_COLOR = "u_Color";
-    //记录颜色uniform在程序对象中的位置
-    private int uColorLocation;
+    //顶点着色器中的顶点颜色
+    private static final String A_COLOR = "a_Color";
+    //记录颜色varying在程序对象中的位置
+    private int aColorLocation;
+    //跨距（顶点坐标每个坐标所占字节数）
+    private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT;
 
     //顶点着色器中定义的位置属性
     private static final String A_POSITION = "a_Position";
@@ -85,20 +87,21 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         //对应到OpenGL坐标
         float[] tableVerticalsWithTriangles = {
                 //使用三角形扇，绘制四个三角形组成的桌子
-                0, 0,
-                -0.5f, -0.5f,
-                0.5f, -0.5f,
-                0.5f, 0.5f,
-                -0.5f, 0.5f,
-                -0.5f, -0.5f,
+                //GL_TRIANGLE_FAN Fan
+                0, 0, 1f, 1f, 1f,//X,Y,R,G,B
+                -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+                0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+                0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
+                -0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
+                -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
 
                 // Line 1
-                -0.5f, 0f,
-                0.5f, 0f,
+                -0.5f, 0f, 1f, 0f, 0f,
+                0.5f, 0f, 1f, 0f, 0f,
 
                 // Mallets
-                0f, -0.25f,
-                0f, 0.25f
+                0f, -0.25f, 0f, 0f, 1f,
+                0f, 0.25f, 1f, 0f, 0f
         };
         vertexData = ByteBuffer
                 //分配本地内存
@@ -134,20 +137,27 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         //使用程序，告诉OpenGL在绘制任何东西到屏幕上的时候都要使用这里定义的程序
         glUseProgram(program);
 
-        //获取uniform和属性的位置
-        //片段着色器中定义了颜色uniform，拿到它在程序对象中的位置
-        uColorLocation = glGetUniformLocation(program, U_COLOR);
+        //着色器中定义了颜色和位置属性，拿到它们在程序对象中的位置
+        aColorLocation = glGetAttribLocation(program, A_COLOR);
         aPositionLocation = glGetAttribLocation(program, A_POSITION);
 
         //关联属性与顶点数据的数组p38
-        //移动缓冲区内部指针到开头，确保从头开始读取数据
+        //移动缓冲区内部指针到开头，确保从头开始读取位置数据
         vertexData.position(0);
         //告诉OpenGL，可以在vertexData中找到a_Position对应的数据
         //通过这个方法，把 需要绘制的坐标 和 顶点着色器程序中的位置属性 关联了起来，
         //即告诉了OpenGL，它可以从vertexData找到属性a_Position的数据
-        glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, 0, vertexData);
-        //使能顶点数组
+        glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
+        //为位置属性使能顶点属性数组
         glEnableVertexAttribArray(aPositionLocation);
+
+        //移动缓冲区内部指针到颜色属性开始的地方，即位置属性结束的地方
+        vertexData.position(POSITION_COMPONENT_COUNT);
+        //关联着色器中的 a_Color 和 颜色数据
+        //STRIDE是跨距，告诉OpenGL每个颜色之间有多少个字节
+        glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
+        //为颜色属性使能定点属性数组
+        glEnableVertexAttribArray(aColorLocation);
     }
 
     @Override
@@ -159,23 +169,15 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //更新着色器代码中u_Color的值，白色RGBA
-        glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
         //第一个参数表示绘制的形状，第二个参数表示从顶点数组的开头处开始读定点，第三个参数表示读入6个顶点
         //绘制三角形扇
-        glDrawArrays(GL_TRIANGLE_FAN,0,6);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 
-        //红色
-        glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
         //绘制分割线
         glDrawArrays(GL_LINES, 6, 2);
 
-        //蓝色
-        glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
         glDrawArrays(GL_POINTS, 8, 1);
 
-        //红色
-        glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
         glDrawArrays(GL_POINTS, 9, 1);
 
     }

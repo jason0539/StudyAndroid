@@ -1,10 +1,9 @@
 //定义所有浮点类型的默认精度
 precision mediump float;
 
-//uniform会让每个顶点都使用同一个值
-//vec4在颜色的上下文中代表RGBA
-uniform vec4 u_Color;
+//varying会使用混合颜色实现渐变效果
+varying vec4 v_Color;
 
 void main(){
-    gl_FragColor = u_Color;
+    gl_FragColor = v_Color;
 }
