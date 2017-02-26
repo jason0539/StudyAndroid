@@ -20,9 +20,12 @@ import static android.opengl.GLES20.GL_POINTS;
 import static android.opengl.GLES20.glClearColor;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glGetAttribLocation;
+import static android.opengl.GLES20.glGetUniformLocation;
+import static android.opengl.GLES20.glUniformMatrix4fv;
 import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLES20.glViewport;
+import static android.opengl.Matrix.orthoM;
 import static javax.microedition.khronos.opengles.GL10.GL_COLOR_BUFFER_BIT;
 import static javax.microedition.khronos.opengles.GL10.GL_FLOAT;
 import static javax.microedition.khronos.opengles.GL10.GL_LINES;
@@ -61,6 +64,11 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     //本地内存缓存区，存储顶点位置
     private FloatBuffer vertexData;
 
+    private static final String U_MATRIX = "u_Matrix";
+    private int uMatrixLocation;
+    //存放正交投影矩阵计算结果
+    private final float[] projectionMatrix = new float[16];
+
 
     public AirHockeyRenderer(Context context) {
         mContext = context;
@@ -89,19 +97,19 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
                 //使用三角形扇，绘制四个三角形组成的桌子
                 //GL_TRIANGLE_FAN Fan
                 0, 0, 1f, 1f, 1f,//X,Y,R,G,B
-                -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
-                0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
-                0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
-                -0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
-                -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+                -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+                0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+                0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+                -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+                -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
 
                 // Line 1
                 -0.5f, 0f, 1f, 0f, 0f,
                 0.5f, 0f, 1f, 0f, 0f,
 
                 // Mallets
-                0f, -0.25f, 0f, 0f, 1f,
-                0f, 0.25f, 1f, 0f, 0f
+                0f, -0.4f, 0f, 0f, 1f,
+                0f, 0.4f, 1f, 0f, 0f
         };
         vertexData = ByteBuffer
                 //分配本地内存
@@ -140,6 +148,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         //着色器中定义了颜色和位置属性，拿到它们在程序对象中的位置
         aColorLocation = glGetAttribLocation(program, A_COLOR);
         aPositionLocation = glGetAttribLocation(program, A_POSITION);
+        uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
 
         //关联属性与顶点数据的数组p38
         //移动缓冲区内部指针到开头，确保从头开始读取位置数据
@@ -163,11 +172,24 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         glViewport(0, 0, width, height);
+        final float aspectRatio = width > height?
+                (float)width/(float)height:(float)height/(float)width;
+        if (width > height) {
+            //横屏，对left、right做变换
+            //计算正交矩阵，projectionMatrix存放返回结果
+            orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f,1f,-1f,1f);
+        }else {
+            //竖屏，对top、bottom做变换
+            orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio,-1f,1f);
+        }
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
         glClear(GL_COLOR_BUFFER_BIT);
+
+        //把正交矩阵传递给着色器的u_Matrix
+        glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0);
 
         //第一个参数表示绘制的形状，第二个参数表示从顶点数组的开头处开始读定点，第三个参数表示读入6个顶点
         //绘制三角形扇
