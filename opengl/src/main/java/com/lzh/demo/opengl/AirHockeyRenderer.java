@@ -172,15 +172,15 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         glViewport(0, 0, width, height);
-        final float aspectRatio = width > height?
-                (float)width/(float)height:(float)height/(float)width;
+        final float aspectRatio = width > height ?
+                (float) width / (float) height : (float) height / (float) width;
         if (width > height) {
             //横屏，对left、right做变换
             //计算正交矩阵，projectionMatrix存放返回结果
-            orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f,1f,-1f,1f);
-        }else {
+            orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f);
+        } else {
             //竖屏，对top、bottom做变换
-            orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio,-1f,1f);
+            orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f);
         }
     }
 
