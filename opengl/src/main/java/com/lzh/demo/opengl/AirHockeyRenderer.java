@@ -40,7 +40,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     private Context mContext;
 
     //坐标纬度（都是二维坐标）
-    private static final int POSITION_COMPONENT_COUNT = 4;
+    private static final int POSITION_COMPONENT_COUNT = 2;
     //颜色纬度
     private static final int COLOR_COMPONENT_COUNT = 3;
     //每个float占用的字节长度
@@ -96,20 +96,20 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         float[] tableVerticalsWithTriangles = {
                 //使用三角形扇，绘制四个三角形组成的桌子
                 //GL_TRIANGLE_FAN Fan
-                 0,      0,    0f, 1.5f, 1f,   1f,   1f,//X,Y,R,G,B
-                -0.5f,  -0.8f, 0f, 1f,   0.7f, 0.7f, 0.7f,
-                 0.5f,  -0.8f, 0f, 1f,   0.7f, 0.7f, 0.7f,
-                 0.5f,   0.8f, 0f, 2f,   0.7f, 0.7f, 0.7f,
-                -0.5f,   0.8f, 0f, 2f,   0.7f, 0.7f, 0.7f,
-                -0.5f,  -0.8f, 0f, 1f,   0.7f, 0.7f, 0.7f,
+                0, 0, 1f, 1f, 1f,//X,Y,R,G,B
+                -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+                0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+                0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+                -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+                -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
 
                 // Line 1
-                -0.5f,   0f,   0f, 1.5f, 1f,   0f,   0f,
-                 0.5f,   0f,   0f, 1.5f, 1f,   0f,   0f,
+                -0.5f, 0f, 1f, 0f, 0f,
+                0.5f, 0f, 1f, 0f, 0f,
 
                 // Mallets
-                0f,     -0.4f, 0f, 1.25f,0f,   0f,   1f,
-                0f,      0.4f, 0f, 1.75f,1f,   0f,   0f
+                0f, -0.4f, 0f, 0f, 1f,
+                0f, 0.4f, 1f, 0f, 0f
         };
         vertexData = ByteBuffer
                 //分配本地内存
