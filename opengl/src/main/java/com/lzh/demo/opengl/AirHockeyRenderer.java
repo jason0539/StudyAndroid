@@ -185,6 +185,8 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         setIdentityM(modelMatrix, 0);
         //沿着z轴平移-2,把桌子移到视野中
         translateM(modelMatrix, 0, 0f, 0f, -2f);
+        //x轴旋转60度，实现俯视效果（效果有点奇怪）
+//        rotateM(modelMatrix, 0, -60, 1f, 0f, 0f);
 
         // 正交投影矩阵*模型矩阵（顺序不能换p78） 得到一个矩阵，最终乘以这一个矩阵完成正交、平移两个操作
         //临时结果保存
