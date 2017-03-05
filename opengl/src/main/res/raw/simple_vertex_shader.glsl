@@ -13,7 +13,8 @@ void main()
 {
     v_Color = a_Color;
 
-    gl_Position = a_Position * u_Matrix;
+    //（相乘两个变量的位置不能变，否则无效）
+    gl_Position = u_Matrix * a_Position;
     //OpenGL需要我们指定 在屏幕上所显示的点 的大小
     //OpenGL把一个点分解为片段的时候，它会生成一些片段，它们是以gl_Position为中心的四边形，
     //这个四边形的每条边的长度与gl_PointSize相等
