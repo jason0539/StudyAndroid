@@ -27,6 +27,7 @@ import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLES20.glViewport;
 import static android.opengl.Matrix.multiplyMM;
+import static android.opengl.Matrix.rotateM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.translateM;
 import static javax.microedition.khronos.opengles.GL10.GL_COLOR_BUFFER_BIT;
@@ -184,9 +185,9 @@ public class AirHockeyRendererSimple implements GLSurfaceView.Renderer {
         //由于桌子默认z轴坐标为0，刚好看到，上面视锥体从-1开始，所以桌子看不到了，需要使用模型矩阵把它移动到视野内
         setIdentityM(modelMatrix, 0);
         //沿着z轴平移-2,把桌子移到视野中
-        translateM(modelMatrix, 0, 0f, 0f, -2f);
+        translateM(modelMatrix, 0, 0f, 0f, -2.5f);
         //x轴旋转60度，实现俯视效果（效果有点奇怪）
-//        rotateM(modelMatrix, 0, -60, 1f, 0f, 0f);
+        rotateM(modelMatrix, 0, -60, 1f, 0f, 0f);
 
         // 正交投影矩阵*模型矩阵（顺序不能换p78） 得到一个矩阵，最终乘以这一个矩阵完成正交、平移两个操作
         //临时结果保存
