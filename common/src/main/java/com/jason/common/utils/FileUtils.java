@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
+import java.util.Scanner;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -134,6 +135,24 @@ public class FileUtils {
         } finally {
             closeIO(gzip, os);
         }
+    }
+
+    public static String readAssetFile(Context context,String fileName){
+        AssetManager assetManager = context.getAssets();
+        InputStream inputStream = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            inputStream = assetManager.open(fileName);
+            Scanner scanner = new Scanner(inputStream,"utf-8");
+            while (scanner.hasNextLine()) {
+                stringBuilder.append(scanner.nextLine());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeIO(inputStream);
+        }
+        return stringBuilder.toString();
     }
 
     public static boolean extractAssetsFile(Context context, String sourceFileName, String destPath) {

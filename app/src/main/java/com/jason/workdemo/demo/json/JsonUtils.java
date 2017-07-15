@@ -1,7 +1,11 @@
 package com.jason.workdemo.demo.json;
 
+import android.content.Context;
+
 import com.alibaba.fastjson.JSON;
+import com.jason.common.utils.FileUtils;
 import com.jason.common.utils.MLog;
+import com.jason.workdemo.demo.json.bean.EffectJsonModel;
 import com.jason.workdemo.demo.json.bean.RecommendUser;
 
 import java.util.List;
@@ -27,6 +31,14 @@ public class JsonUtils {
             for (RecommendUser.UserProfile.ProfileItem item : profileItem) {
                 MLog.d(MLog.TAG_JSON, TAG + "->" + "parseJson " + item.getTag() + " = " + item.getValue());
             }
+        }
+    }
+
+    public static void testProguard(Context context){
+        String assetString = FileUtils.readAssetFile(context,"effect.json");
+        List<EffectJsonModel> effectList =  JSON.parseArray(assetString, EffectJsonModel.class);
+        for (EffectJsonModel effectJsonModel : effectList) {
+            MLog.d(MLog.TAG_JSON,"JsonUtils->testProguard " + effectJsonModel.getEffectName());
         }
     }
 }
