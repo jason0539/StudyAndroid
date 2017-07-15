@@ -1,10 +1,12 @@
 package com.jason.workdemo.demo.json.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by liuzhenhui on 2017/7/15.
  */
 
-public class EffectJsonModel {
+public class EffectJsonModel implements Serializable{
     String effectName;
     String jsonName;
 
