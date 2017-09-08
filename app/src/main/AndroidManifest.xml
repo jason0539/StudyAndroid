@@ -39,6 +39,7 @@
         <activity android:name=".ipc.aidl.AIDLActivity"/>
         <service android:name=".ipc.aidl.BookService"/>
         <activity android:name=".kotlin.KotlinActivity"/>
+        <activity android:name=".demo.json.JsonDemoActivity"/>
         <activity android:name=".kotlin.AnotherKotlinActivity"/>
         <activity android:name=".demo.rxbus.RxBusActivityA"/>
         <activity android:name=".demo.rxbus.RxBusActivityB"/>

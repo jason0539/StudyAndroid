@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.MToast;
 import com.jason.workdemo.demo.TextViewActivity;
+import com.jason.workdemo.demo.json.JsonDemoActivity;
 import com.jason.workdemo.demo.rxbus.RxBusActivityA;
 import com.jason.workdemo.ipc.aidl.AIDLActivity;
 import com.jason.workdemo.kotlin.KotlinActivity;
@@ -53,6 +54,7 @@ public class MainActivity extends Activity {
         dataList.add(TextViewActivity.class);
         dataList.add(AIDLActivity.class);
         dataList.add(KotlinActivity.class);
+        dataList.add(JsonDemoActivity.class);
         dataList.add(RxBusActivityA.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
