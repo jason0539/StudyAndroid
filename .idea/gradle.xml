@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/opengl" />
             <option value="$PROJECT_DIR$/plugin" />
             <option value="$PROJECT_DIR$/plugin-framework" />
+            <option value="$PROJECT_DIR$/weex" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
