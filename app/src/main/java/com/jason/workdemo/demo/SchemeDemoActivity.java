@@ -30,6 +30,7 @@ public class SchemeDemoActivity extends Activity {
         Uri content_url = Uri.parse(
                 "baidumap://map/component?comName=lbc&target=webshell_login_page&param={\"url\":\"http://cq01-rdqa"
                         + "-dev036.cq01.baidu.com:8001/intergration/\",\"needLogin\":\"0\"}");
+//        Uri content_url = Uri.parse("solo://sl/live/teach_square");
         intent.setData(content_url);
         startActivity(intent);
     }
