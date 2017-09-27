@@ -43,6 +43,7 @@
         <activity android:name=".kotlin.AnotherKotlinActivity"/>
         <activity android:name=".demo.rxbus.RxBusActivityA"/>
         <activity android:name=".demo.rxbus.RxBusActivityB"/>
+        <activity android:name=".demo.StorageActivity"/>
     </application>
 
 </manifest>
