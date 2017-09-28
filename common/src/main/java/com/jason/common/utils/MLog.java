@@ -25,6 +25,7 @@ public class MLog {
     public static final String TAG_AIDL = "TAG_AIDL";
     public static final String TAG_OPENGL = "TAG_OPENGL";
     public static final String TAG_WEEX = "TAG_WEEX";
+    public static final String TAG_THREAD = "TAG_THREAD";
 
     public static final void d(String subTag, String msg) {
         if (DEBUG) {
