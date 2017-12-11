@@ -1,5 +1,6 @@
 package com.lzh.demo.plugin.binder;
 
+import android.content.Context;
 import android.os.IBinder;
 
 import com.jason.common.utils.MLog;
@@ -21,9 +22,9 @@ public class BinderHookHelper {
     public static void hookBinderClipboardService() {
         try {
             MLog.d(MLog.TAG_HOOK, "HookHelper->" + "hookBinderClipboardService ");
-            final String CLIPBOARD_SERVICE = "clipboard";
+            final String CLIPBOARD_SERVICE = Context.CLIPBOARD_SERVICE;
 
-            // 下面这一段的意思实际就是: ServiceManager.getService("clipboard");
+            // 下面这一段的意思实际就是: ServiceManager.getService(Context.CLIPBOARD_SERVICE);
             // 只不过 ServiceManager这个类是@hide的
             Class<?> serviceManager = Class.forName("android.os.ServiceManager");
             Method getService = serviceManager.getDeclaredMethod("getService", String.class);
@@ -33,7 +34,8 @@ public class BinderHookHelper {
             IBinder rawBinder = (IBinder) getService.invoke(null, CLIPBOARD_SERVICE);
 
             // Hook 掉这个Binder代理对象的 queryLocalInterface 方法
-            // 然后在 queryLocalInterface 返回一个IInterface对象, hook掉我们感兴趣的方法即可.
+            // 然后在 queryLocalInterface 返回一个IInterface对象, hook掉我们感兴趣的方法即可
+            // （让本来应该调用服务进程的方法在应用进程伪造数据直接返回）
             IBinder hookedBinder = (IBinder) Proxy.newProxyInstance(serviceManager.getClassLoader(),
                     new Class[]{IBinder.class}, new BinderProxyHookInvocationHandler(rawBinder));
 
