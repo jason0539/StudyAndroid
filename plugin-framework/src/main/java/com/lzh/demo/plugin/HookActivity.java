@@ -68,13 +68,10 @@ public class HookActivity extends Activity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setData(Uri.parse("http://www.baidu.com"));
-                // 注意这里使用的ApplicationContext 启动的Activity
-                // 因为Activity对象的startActivity使用的并不是ContextImpl的mInstrumentation
-                // 而是自己的mInstrumentation, 如果你需要这样, 可以自己Hook
-                // 比较简单, 直接替换这个Activity的此字段即可.
+                //两种hook解释详见InstrumentationHookHelper
+                //适用于使用hook方式2的启动方式
 //                getApplicationContext().startActivity(intent);
                 //适用于使用hook方式1的启动方式
-                //HookHelper.hookActivityInstrumentation(this)
                 startActivity(intent);
             }
         });

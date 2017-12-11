@@ -10,11 +10,15 @@ import java.lang.reflect.Method;
 
 /**
  * Created by liuzhenhui on 2017/1/7.
+ * Instrumentation负责应用所有与系统的交互，ActivityThread中有一个，每个Activity中有一个
+ * 方式1 hook的是Activity中的，所以要用activity的startActivity启动才有效
+ * 方式2 hook的是ActivityThread，要通过ApplicationContext(ContextImpl)的startActivity有效
  */
 public class InstrumentationHookHelper {
     public static final String TAG = InstrumentationHookHelper.class.getSimpleName();
 
     /**
+     * 方式1
      * hook当前activity的mInstrumentation，仅对当前activity有效
      * 使用activity的startActivity即可测试效果
      */
@@ -36,6 +40,7 @@ public class InstrumentationHookHelper {
     private static boolean activityThreadInstrumentationHooked = false;
 
     /**
+     * 方式2
      * hook当前应用的activityThread的mInstrumentation，
      * 对applicationContext的startActivity有效，因为最终走到了ActivityThread的mInstrumentation
      * 对activity中的直接startActivity无效，因为Activity使用自己的mInstrumentation
