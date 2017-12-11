@@ -51,6 +51,7 @@ public class HookActivity extends Activity {
         MLog.d(MLog.TAG_HOOK, "HookActivity->" + "onCreate ");
         super.onCreate(savedInstanceState);
 
+        //startActivity的hook方式1：hook activity里面的mInstrumentation变量，仅对activity的startActivity起作用
         InstrumentationHookHelper.hookActivityInstrumentation(this);
 
         LinearLayout linearLayout = new LinearLayout(this);
@@ -71,10 +72,10 @@ public class HookActivity extends Activity {
                 // 因为Activity对象的startActivity使用的并不是ContextImpl的mInstrumentation
                 // 而是自己的mInstrumentation, 如果你需要这样, 可以自己Hook
                 // 比较简单, 直接替换这个Activity的此字段即可.
-                getApplicationContext().startActivity(intent);
-                //使用这种方式hook的化，HookHelper.hookActivityInstrumentation(this);
-                //则使用下面方式启动
-//                startActivity(intent);
+//                getApplicationContext().startActivity(intent);
+                //适用于使用hook方式1的启动方式
+                //HookHelper.hookActivityInstrumentation(this)
+                startActivity(intent);
             }
         });
         linearLayout.addView(tv);
@@ -208,6 +209,7 @@ public class HookActivity extends Activity {
         MLog.d(MLog.TAG_HOOK, "HookActivity->" + "attachBaseContext ");
         super.attachBaseContext(newBase);
 
+//        startActivity的hook方式2：
         InstrumentationHookHelper.hookActivityThreadInstrumentation();
         AmsHookHelper.hookActivityManagerNative();
         AmsHookHelper.hookActivityThreadHandlerCallback();
