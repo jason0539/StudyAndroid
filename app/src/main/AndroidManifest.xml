@@ -44,6 +44,7 @@
         <activity android:name=".demo.rxbus.RxBusActivityA"/>
         <activity android:name=".demo.rxbus.RxBusActivityB"/>
         <activity android:name=".demo.StorageActivity"/>
+        <activity android:name=".demo.recycleview.RecycleViewDemo"/>
     </application>
 
 </manifest>
