@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.MToast;
+import com.jason.workdemo.demo.DemoCaseActivity;
 import com.jason.workdemo.demo.SchemeDemoActivity;
 import com.jason.workdemo.demo.StorageActivity;
 import com.jason.workdemo.demo.TextViewActivity;
@@ -59,6 +60,7 @@ public class MainActivity extends Activity {
         dataList.add(SchemeDemoActivity.class);
         dataList.add(StorageActivity.class);
         dataList.add(KotlinActivity.class);
+        dataList.add(DemoCaseActivity.class);
         dataList.add(JsonDemoActivity.class);
         dataList.add(RxBusActivityA.class);
         dataList.add(RecycleViewDemo.class);
