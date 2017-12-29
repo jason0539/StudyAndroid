@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.jason.common.utils.LayoutUtils;
+import com.jason.common.utils.MLog;
 import com.jason.common.utils.ScreenUtils;
 import com.jason.common.utils.UtilDate;
 
@@ -39,5 +40,16 @@ public class DemoCaseActivity extends Activity{
             }
         });
         linearLayout.addView(clip, layoutParams);
+
+        Button randomChoose = new Button(this);
+        randomChoose.setText("随机选中");
+        randomChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String random = String.valueOf(System.currentTimeMillis());
+                int num = Integer.valueOf(random.substring(random.length()-1));
+                MLog.d(MLog.TAG_JSON,"JsonDemoActivity->onClick " + num + ":choosed = " + (num > 5));
+            }
+        });
     }
 }
