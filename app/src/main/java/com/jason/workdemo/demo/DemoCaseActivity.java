@@ -51,5 +51,8 @@ public class DemoCaseActivity extends Activity{
                 MLog.d(MLog.TAG_JSON,"JsonDemoActivity->onClick " + num + ":choosed = " + (num > 5));
             }
         });
+        linearLayout.addView(randomChoose,layoutParams);
+
+        setContentView(linearLayout);
     }
 }
