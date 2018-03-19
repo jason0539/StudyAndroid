@@ -53,8 +53,8 @@ public class DemoCaseActivity extends Activity{
 
                 long timeNow = System.currentTimeMillis();
                 Date date = new Date();
-                date.setYear(118);
-                date.setMonth(3);
+                date.setYear(118);//2018-1900
+                date.setMonth(3);//0-11
                 date.setDate(1);
                 long timeEnd = date.getTime();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
