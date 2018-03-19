@@ -15,6 +15,7 @@ import com.jason.common.utils.MLog;
 import com.jason.common.utils.ScreenUtils;
 import com.jason.common.utils.UtilDate;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -42,13 +43,30 @@ public class DemoCaseActivity extends Activity{
         linearLayout.addView(clip, layoutParams);
 
         Button randomChoose = new Button(this);
-        randomChoose.setText("随机选中");
+        randomChoose.setText("时间");
         randomChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String random = String.valueOf(System.currentTimeMillis());
                 int num = Integer.valueOf(random.substring(random.length()-1));
                 MLog.d(MLog.TAG_JSON,"JsonDemoActivity->onClick " + num + ":choosed = " + (num > 5));
+
+                long timeNow = System.currentTimeMillis();
+                Date date = new Date();
+                date.setYear(118);
+                date.setMonth(3);
+                date.setDate(1);
+                long timeEnd = date.getTime();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String dateEnd = format.format(timeEnd);
+                String dateNow = format.format(timeNow);
+                long diff = timeEnd - timeNow;
+                MLog.d(MLog.TAG_JSON,"DemoCaseActivity->onClick 现在:"+dateNow + ",结束："+dateEnd+",diff="+diff);
+                if (timeNow < timeEnd) {
+                    MLog.d(MLog.TAG_JSON,"DemoCaseActivity->onClick 还未结束");
+                }else {
+                    MLog.d(MLog.TAG_JSON,"DemoCaseActivity->onClick 结束了");
+                }
             }
         });
         linearLayout.addView(randomChoose,layoutParams);
