@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.MToast;
+import com.jason.workdemo.animation.AnimationActivity;
 import com.jason.workdemo.demo.DemoCaseActivity;
 import com.jason.workdemo.demo.SchemeDemoActivity;
 import com.jason.workdemo.demo.StorageActivity;
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
         final List<Class> dataList = new ArrayList<>();
         dataList.add(CustomViewActivity.class);
 //        dataList.add(AnimActivity.class);
-//        dataList.add(ScrollActivity.class);
+        dataList.add(AnimationActivity.class);
 //        dataList.add(ListViewActivity.class);
 //        dataList.add(SpanDemoActivity.class);
 //        dataList.add(TextViewActivity.class);

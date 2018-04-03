@@ -13,7 +13,7 @@ import com.jason.workdemo.R;
 /**
  * liuzhenhui 16/6/4.下午10:54
  */
-public class ScrollActivity extends Activity implements OnClickListener {
+public class AnimationActivity extends Activity implements OnClickListener {
 
     private ScrollerTextView mTvScroller;
     private TextView mTvAnim;

@@ -25,7 +25,7 @@
         <activity android:name=".demo.SchemeDemoActivity"/>
         <activity android:name=".touchevent.gesture.GestureActivity"/>
         <activity android:name=".animation.AnimActivity"/>
-        <activity android:name=".animation.ScrollActivity"/>
+        <activity android:name=".animation.AnimationActivity"/>
         <activity android:name=".touchevent.event.TouchActivity"/>
         <activity android:name=".touchevent.scrollconflict.ScrollConflictActivity"/>
         <activity android:name=".plugin.loaddex.PluginActivity"/>
