@@ -4,27 +4,62 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.Scroller;
-
-import com.jason.common.utils.MLog;
 
 public class HelloScrollerView extends View {
 
     private Paint paint = new Paint();
-    private VelocityTracker velocityTracker;
     private Scroller scroller;
-    private float lastX,lastY;
+    private float lastX, lastY;
     private float currentX = 200;
     private float currentY = 200;
     private int textSize = 60;
+    private GestureDetector gestureDetector;
 
     public HelloScrollerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         scroller = new Scroller(context);
         paint.setTextSize(textSize);
+        GestureDetector.OnGestureListener onGestureListener = new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                int minX = 0;
+                int maxX = (getWidth() - textSize * 2);
+                int minY = textSize;
+                int maxY = getHeight();
+                scroller.fling((int) currentX, (int) currentY, (int) velocityX, (int) velocityY, minX, maxX, minY, maxY);
+                return false;
+            }
+        };
+        gestureDetector = new GestureDetector(getContext(), onGestureListener);
     }
 
     @Override
@@ -35,12 +70,7 @@ public class HelloScrollerView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         super.onTouchEvent(ev);
-
-        if (velocityTracker == null) {
-            velocityTracker = VelocityTracker.obtain();
-        }
-        velocityTracker.addMovement(ev);
-
+        gestureDetector.onTouchEvent(ev);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (!scroller.isFinished()) {
@@ -56,15 +86,6 @@ public class HelloScrollerView extends View {
                 lastY = ev.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                velocityTracker.computeCurrentVelocity(1000);
-                MLog.d(MLog.TAG_SCROLL, "HelloScrollerView->onTouchEvent vx = " + (int) velocityTracker.getXVelocity());
-                int minX = 0;
-                int maxX =  (getWidth() - textSize * 2);
-                int minY = textSize;
-                int maxY = getHeight();
-                scroller.fling((int) currentX, (int) currentY, (int) velocityTracker.getXVelocity(), (int) velocityTracker.getYVelocity(),minX, maxX, minY, maxY);
-                velocityTracker.recycle();
-                velocityTracker = null;
                 break;
         }
         invalidate();
