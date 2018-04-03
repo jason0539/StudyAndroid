@@ -16,7 +16,7 @@ public class HelloScrollerView extends View {
     private Paint paint = new Paint();
     private VelocityTracker velocityTracker;
     private Scroller scroller;
-    private float lastX;
+    private float lastX,lastY;
     private float currentX = 200;
     private float currentY = 200;
     private int textSize = 60;
@@ -47,15 +47,22 @@ public class HelloScrollerView extends View {
                     scroller.abortAnimation();
                 }
                 lastX = ev.getX();
+                lastY = ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 currentX = (currentX + (ev.getX() - lastX));
+                currentY = (currentY + (ev.getY() - lastY));
                 lastX = ev.getX();
+                lastY = ev.getY();
                 break;
             case MotionEvent.ACTION_UP:
                 velocityTracker.computeCurrentVelocity(1000);
                 MLog.d(MLog.TAG_SCROLL, "HelloScrollerView->onTouchEvent vx = " + (int) velocityTracker.getXVelocity());
-                scroller.fling((int) currentX, (int) currentY, (int) velocityTracker.getXVelocity(), (int) velocityTracker.getYVelocity(), 0, (getWidth() - textSize * 2), textSize, getHeight());
+                int minX = 0;
+                int maxX =  (getWidth() - textSize * 2);
+                int minY = textSize;
+                int maxY = getHeight();
+                scroller.fling((int) currentX, (int) currentY, (int) velocityTracker.getXVelocity(), (int) velocityTracker.getYVelocity(),minX, maxX, minY, maxY);
                 velocityTracker.recycle();
                 velocityTracker = null;
                 break;
