@@ -3,6 +3,7 @@ package com.jason.workdemo.kotlin
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import com.jason.common.utils.MLog
 import com.jason.workdemo.R
 import kotlinx.android.synthetic.main.activity_kotlin.*
@@ -16,7 +17,11 @@ class KotlinActivity : AppCompatActivity() {
             val intent = Intent(this, AnotherKotlinActivity::class.java)
             startActivity(intent)
         }
-        studyVar()
+//        studyVar()
+        var adapter = MainAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 
     fun studyVar() {
