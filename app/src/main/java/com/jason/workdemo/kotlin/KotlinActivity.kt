@@ -21,7 +21,7 @@ class KotlinActivity : AppCompatActivity() {
         var adapter = MainAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-
+        adapter.setOnItemClickListener{pos -> toast("$pos")}
     }
 
     fun studyVar() {
