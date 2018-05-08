@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.item_main_list.view.*
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
+    //输入为int，返回值为Unit(kotlin的null，不过是个具体的对象)
     var mListener: ((pos: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
