@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="99dp"
         android:layout_marginLeft="111dp"
-        android:layout_marginStart="111dp"
         android:layout_marginTop="135dp"
         android:text="跳转"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
