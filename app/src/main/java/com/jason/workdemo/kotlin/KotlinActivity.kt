@@ -1,6 +1,5 @@
 package com.jason.workdemo.kotlin
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -14,8 +13,8 @@ class KotlinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin)
         btn_kotlin_jump.setOnClickListener {
-            val intent = Intent(this, AnotherKotlinActivity::class.java)
-            startActivity(intent)
+            var user = User("name", "id")
+            AnotherKotlinActivity.startActivity(this,user)
         }
 //        studyVar()
         var adapter = MainAdapter()
