@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jason.common.utils.ScreenUtils;
 import com.jason.workdemo.R;
 
 /**
@@ -27,7 +28,7 @@ public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecycl
     private String[] mTitles;
 
     public NormalRecyclerViewAdapter(Context context) {
-        mTitles = new String[]{VIEW_TITLE_ANDROID, VIEW_TITLE_IOS};
+        mTitles = new String[]{VIEW_TITLE_ANDROID, VIEW_TITLE_IOS, VIEW_TITLE_ANDROID, VIEW_TITLE_IOS, VIEW_TITLE_ANDROID, VIEW_TITLE_IOS};
         mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -45,7 +46,7 @@ public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecycl
 
     @Override
     public void onBindViewHolder(NormalTextViewHolder holder, int position) {
-        holder.mTextView.setText(mTitles[position]);
+        holder.mTextView.setText("位置：" + (position + 1));
     }
 
     @Override
@@ -72,6 +73,9 @@ public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecycl
 
         NormalTextViewHolder(View view) {
             super(view);
+            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+            layoutParams.height = ScreenUtils.getScreenHeight(view.getContext())/3;
+            view.setLayoutParams(layoutParams);
             mTextView = (TextView) view.findViewById(R.id.tv_item_main_list);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
