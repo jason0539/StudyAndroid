@@ -1,6 +1,9 @@
 package com.jason.common.utils;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 /**
  * Created by liuzhenhui on 2016/10/31.
@@ -43,5 +46,21 @@ public class ScreenUtils {
             mDensityDpi = context.getResources().getDisplayMetrics().densityDpi;
         }
         return mDensityDpi;
+    }
+
+    public static int getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        return metrics.widthPixels;
+    }
+
+    public static int getScreenHeight(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        return metrics.heightPixels;
     }
 }
