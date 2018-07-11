@@ -20,6 +20,7 @@ import com.jason.workdemo.demo.DemoCaseActivity;
 import com.jason.workdemo.demo.SchemeDemoActivity;
 import com.jason.workdemo.demo.StorageActivity;
 import com.jason.workdemo.demo.TextViewActivity;
+import com.jason.workdemo.demo.dragger.ViewDraggerActivity;
 import com.jason.workdemo.demo.json.JsonDemoActivity;
 import com.jason.workdemo.demo.recycleview.RecycleViewDemo;
 import com.jason.workdemo.demo.rxbus.RxBusActivityA;
@@ -65,6 +66,7 @@ public class MainActivity extends Activity {
         dataList.add(JsonDemoActivity.class);
         dataList.add(RxBusActivityA.class);
         dataList.add(RecycleViewDemo.class);
+        dataList.add(ViewDraggerActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jason.workdemo.demo.dragger.VDHLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="#4400ff00"
+        android:gravity="center"
+        android:text="随意拖动!"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="#44ff00ff"
+        android:gravity="center"
+        android:text="松开回归原位!"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="#44ffff00"
+        android:gravity="center"
+        android:text="只能从边缘拖动!"/>
+
+</com.jason.workdemo.demo.dragger.VDHLayout>
