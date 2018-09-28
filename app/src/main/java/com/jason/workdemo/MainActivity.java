@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jason.common.utils.MLog;
 import com.jason.common.utils.MToast;
 import com.jason.workdemo.animation.AnimationActivity;
+import com.jason.workdemo.demo.BitmapDemoActivity;
 import com.jason.workdemo.demo.DemoCaseActivity;
 import com.jason.workdemo.demo.SchemeDemoActivity;
 import com.jason.workdemo.demo.StorageActivity;
@@ -67,6 +68,7 @@ public class MainActivity extends Activity {
         dataList.add(RxBusActivityA.class);
         dataList.add(RecycleViewDemo.class);
         dataList.add(ViewDraggerActivity.class);
+        dataList.add(BitmapDemoActivity.class);
         ListAdapter mAdapter = new SimpleAdapter(dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

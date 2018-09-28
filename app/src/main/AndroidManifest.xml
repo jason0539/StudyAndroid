@@ -47,6 +47,7 @@
         <activity android:name=".demo.DemoCaseActivity"/>
         <activity android:name=".demo.recycleview.RecycleViewDemo"/>
         <activity android:name=".demo.dragger.ViewDraggerActivity"/>
+        <activity android:name=".demo.BitmapDemoActivity"/>
     </application>
 
 </manifest>
