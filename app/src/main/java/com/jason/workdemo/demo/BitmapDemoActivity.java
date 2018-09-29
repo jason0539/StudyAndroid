@@ -76,7 +76,9 @@ public class BitmapDemoActivity extends Activity {
                     break;
                 case R.id.btn_bitmap_compress:
                     byte[] oriByte = FileUtils.readByteFromFile(PATH_FILE_TEMP);
-                    Bitmap temp = getBitmapByOriginBytes(oriByte,testBitmap.getWidth(),testBitmap.getHeight(),Bitmap.Config.ARGB_8888);
+                    ByteBuffer wrap = ByteBuffer.wrap(oriByte);
+                    Bitmap temp = Bitmap.createBitmap(testBitmap.getWidth(),testBitmap.getHeight()/2, Bitmap.Config.ARGB_8888);
+                    temp.copyPixelsFromBuffer(wrap);
                     byte[] dstByte = getBytesByBitmapCompress(temp); // 压缩
                     FileUtils.writeByteToFile(dstByte,PATH_FILE_JPG);
                     break;
@@ -95,7 +97,8 @@ public class BitmapDemoActivity extends Activity {
     // bitmap -> byte[]
     public static byte[] getBytesByBitmapCompress(Bitmap bitmap) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, output);
+        //压缩成jpg体积更小
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, output);
         byte[] bytes = output.toByteArray();
 
         try {
