@@ -6,8 +6,11 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -227,4 +230,61 @@ public class FileUtils {
         return body.toString();
     }
 
+
+    // FileOutputStream
+    public static boolean writeByteToFile(byte[] bytes, String path) {
+        try {
+            File picFile = new File(path);
+            boolean ret = picFile.createNewFile();
+            if (!ret) {
+                Log.d("tag1", "生产 RGB write fail" + path);
+                return false;
+            }
+            FileOutputStream output = new FileOutputStream(picFile);
+            output.write(bytes);
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            Log.d("tag1", "生产 RGB write fail" + e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public static byte[] readByteFromFile(String file) {
+        byte[] ret = null;
+        InputStream inputStream = null;
+        try {
+            if (!TextUtils.isEmpty(file)) {
+                inputStream = new FileInputStream(file);
+                BufferedInputStream bis = new BufferedInputStream(inputStream);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                int date;
+                while ((date = bis.read()) != -1) {
+                    bos.write(date);
+                }
+                ret = bos.toByteArray();
+            }
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e1) {
+                    Log.e(TAG, e1.getMessage());
+                }
+            }
+        }
+        return ret;
+    }
+
+    public static boolean createDirs(String dir) {
+        File tmp = new File(dir);
+        if (!tmp.exists()) {
+            return tmp.mkdirs();
+        }
+        return true;
+    }
 }

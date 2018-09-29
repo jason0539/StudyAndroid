@@ -45,5 +45,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btn_bitmap_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不压缩保存" />
+
+        <Button
+            android:id="@+id/btn_bitmap_compress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="压缩保存的文件" />
+
+        <ImageView
+            android:id="@+id/iv_bitmap_compress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
