@@ -80,6 +80,17 @@ public class BitmapDemoActivity extends Activity {
                     Bitmap temp = Bitmap.createBitmap(testBitmap.getWidth(),testBitmap.getHeight()/2, Bitmap.Config.ARGB_8888);
                     temp.copyPixelsFromBuffer(wrap);
                     byte[] dstByte = getBytesByBitmapCompress(temp); // 压缩
+                    //另一种从byte创建bitmap的思路，需要注意byte数组顺序
+//                    int imgWidth = testBitmap.getWidth();
+//                    int imgHeight = testBitmap.getHeight();
+//                    Bitmap temp = Bitmap.createBitmap(imgWidth, imgHeight, Bitmap.Config.ARGB_8888);
+//
+//                    int[] pixel = new int[imgWidth * imgHeight];
+//                    for (int i = 0; i < pixel.length; i++) {
+//                        int gray = oriByte[i];
+//                        pixel[i] = (0xFF << 24) + (gray << 16) + (gray << 8) + gray;
+//                    }
+//                    temp.setPixels(pixel, 0, imgWidth, 0, 0, imgWidth, imgHeight);
                     FileUtils.writeByteToFile(dstByte,PATH_FILE_JPG);
                     break;
             }
