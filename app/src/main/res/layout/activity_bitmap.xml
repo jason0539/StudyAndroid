@@ -20,19 +20,19 @@
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-
+        <!--bitmap->compressed byte[]->bitmap-->
         <Button
             android:id="@+id/btn_bitmap_decode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bitmap->compress->byte[]->bitmap" />
+            android:text="bitmap->compressed byte[]->bitmap" />
 
         <ImageView
             android:id="@+id/iv_bitmap_decode"
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-
+        <!--bitmap->byte[]->bitmap-->
         <Button
             android:id="@+id/btn_bitmap_pixel"
             android:layout_width="wrap_content"
@@ -44,15 +44,27 @@
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-
+        <!--bitmap->byte[]->file->compressed byte[]->bitmap-->
         <Button
             android:id="@+id/btn_bitmap_compress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bitmap->byte[]->file->compress->bitmap" />
+            android:text="bitmap->byte[]->file->compressed byte[]->bitmap" />
 
         <ImageView
             android:id="@+id/iv_bitmap_compress"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <!--bitmap->int[]->bitmap-->
+        <Button
+            android:id="@+id/btn_bitmap_int"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bitmap->int[]->bitmap" />
+
+        <ImageView
+            android:id="@+id/iv_bitmap_int"
             android:layout_width="100dp"
             android:layout_height="100dp" />
     </LinearLayout>

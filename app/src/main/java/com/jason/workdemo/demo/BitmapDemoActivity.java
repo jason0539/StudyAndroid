@@ -37,6 +37,9 @@ public class BitmapDemoActivity extends Activity {
     Button btnCompress;
     ImageView ivCompress;
 
+    Button btnInt;
+    ImageView ivInt;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class BitmapDemoActivity extends Activity {
         ivOrigin = (ImageView) findViewById(R.id.iv_bitmap_origin);
         btnCompress = (Button) findViewById(R.id.btn_bitmap_compress);
         ivCompress = (ImageView) findViewById(R.id.iv_bitmap_compress);
+        btnInt = (Button) findViewById(R.id.btn_bitmap_int);
+        ivInt = (ImageView) findViewById(R.id.iv_bitmap_int);
         try {
             testBitmap = BitmapFactory.decodeStream(getResources().getAssets().open("test.png"));
         } catch (IOException e) {
@@ -57,6 +62,7 @@ public class BitmapDemoActivity extends Activity {
         btnPixel.setOnClickListener(onClickListener);
         btnDecode.setOnClickListener(onClickListener);
         btnCompress.setOnClickListener(onClickListener);
+        btnInt.setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -94,18 +100,28 @@ public class BitmapDemoActivity extends Activity {
                     //压缩后保存
                     byte[] dstByte = getBytesByCompressStream(temp);
                     FileUtils.writeByteToFile(dstByte, PATH_FILE_JPG);
-                    //另一种从byte创建bitmap的思路，需要注意byte数组顺序
-//                    int imgWidth = testBitmap.getWidth();
-//                    int imgHeight = testBitmap.getHeight();
-//                    Bitmap temp = Bitmap.createBitmap(imgWidth, imgHeight, Bitmap.Config.ARGB_8888);
-//
-//                    int[] pixel = new int[imgWidth * imgHeight];
-//                    for (int i = 0; i < pixel.length; i++) {
-//                        int gray = oriByte[i];
-//                        pixel[i] = (0xFF << 24) + (gray << 16) + (gray << 8) + gray;
-//                    }
-//                    temp.setPixels(pixel, 0, imgWidth, 0, 0, imgWidth, imgHeight);
 
+                case R.id.btn_bitmap_int:
+                    int width = testBitmap.getWidth();
+                    int height = testBitmap.getHeight();
+                    int[] pixels = new int[width * height];
+                    //stride参数http://ranlic.iteye.com/blog/1313735
+                    testBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+                    Bitmap copiedBitmap = Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.ARGB_8888);
+//                    ivInt.setImageBitmap(copiedBitmap);
+
+                    //另一种从byte创建bitmap的思路，需要注意byte数组顺序
+                    Bitmap bitmapAnotherWay = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+                    int[] pixel = new int[pixels.length];
+                    for (int i = 0; i < pixel.length; i++) {
+                        //每个像素刚好4个字节，复制过来即可
+                        pixel[i] = pixels[i];
+                        //如果原像素存储的事byte[],则可以如下按照ARGB顺序赋值到一个像素int位上
+//                        pixel[i] = (0xFF << 24) + (gray << 16) + (gray << 8) + gray;
+                    }
+                    bitmapAnotherWay.setPixels(pixel, 0, width, 0, 0, width, height);
+                    ivInt.setImageBitmap(bitmapAnotherWay);
                     break;
             }
         }
