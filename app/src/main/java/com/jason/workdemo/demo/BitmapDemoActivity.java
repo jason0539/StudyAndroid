@@ -26,13 +26,14 @@ public class BitmapDemoActivity extends Activity {
     public static final String PATH_FILE_JPG = Environment.getExternalStorageDirectory() + "/test.jpg";
     Bitmap testBitmap;
 
+    ImageView ivOrigin;
+
     Button btnPixel;
     ImageView ivPixel;
 
     Button btnDecode;
     ImageView ivDecode;
 
-    Button btnSave;
     Button btnCompress;
     ImageView ivCompress;
 
@@ -44,7 +45,7 @@ public class BitmapDemoActivity extends Activity {
         ivPixel = (ImageView) findViewById(R.id.iv_bitmap_pixel);
         btnDecode = (Button) findViewById(R.id.btn_bitmap_decode);
         ivDecode = (ImageView) findViewById(R.id.iv_bitmap_decode);
-        btnSave = (Button) findViewById(R.id.btn_bitmap_save);
+        ivOrigin = (ImageView) findViewById(R.id.iv_bitmap_origin);
         btnCompress = (Button) findViewById(R.id.btn_bitmap_compress);
         ivCompress = (ImageView) findViewById(R.id.iv_bitmap_compress);
         try {
@@ -52,9 +53,9 @@ public class BitmapDemoActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ivOrigin.setImageBitmap(testBitmap);
         btnPixel.setOnClickListener(onClickListener);
         btnDecode.setOnClickListener(onClickListener);
-        btnSave.setOnClickListener(onClickListener);
         btnCompress.setOnClickListener(onClickListener);
     }
 
@@ -62,24 +63,37 @@ public class BitmapDemoActivity extends Activity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
+                //bitmap->compressed byte[]->bitmap
                 case R.id.btn_bitmap_decode:
-                    byte[] img = getBitmapByteArrayByStream(testBitmap);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
+                    //压缩bitmap得到byte[]，得到的byte[]较小
+                    byte[] tempByteArray = getBytesByCompressStream(testBitmap);
+                    //从byte[]解码再得到bitmap
+                    Bitmap bitmap = getBitmapByCompressedBytes(tempByteArray);
                     ivDecode.setImageBitmap(bitmap);
                     break;
+                //bitmap->byte[]->bitmap
                 case R.id.btn_bitmap_pixel:
-                    recoverFromPixel();
+                    //不压缩直接获取bitmap到byte[]，得到的byte[]较大
+                    byte[] img = getBytesByCopyPixel(testBitmap);
+                    //从byte[]恢复bitmap
+                    Bitmap faceImg = getBitmapByCopyedBytes(img);
+                    ivPixel.setImageBitmap(faceImg);
                     break;
-                case R.id.btn_bitmap_save:
-                    byte[] bitmapBytes = getBitmapByteByCopyPixel(testBitmap);
-                    FileUtils.writeByteToFile(bitmapBytes, PATH_FILE_TEMP);
-                    break;
+                //bitmap->获取未压缩的byte[]->保存到file
+                //未压缩且直接写到文件，效率很高，用于高频率保存，然后后面再压缩成jpg图片
                 case R.id.btn_bitmap_compress:
+                    //高效率保存bitmap
+                    byte[] bitmapBytes = getBytesByCopyPixel(testBitmap);
+                    FileUtils.writeByteToFile(bitmapBytes, PATH_FILE_TEMP);
+                    //空闲时读取再压缩保存成jpg图片
                     byte[] oriByte = FileUtils.readByteFromFile(PATH_FILE_TEMP);
-                    ByteBuffer wrap = ByteBuffer.wrap(oriByte);
-                    Bitmap temp = Bitmap.createBitmap(testBitmap.getWidth(),testBitmap.getHeight()/2, Bitmap.Config.ARGB_8888);
-                    temp.copyPixelsFromBuffer(wrap);
-                    byte[] dstByte = getBytesByBitmapCompress(temp); // 压缩
+                    ByteBuffer wraps = ByteBuffer.wrap(oriByte);
+                    Bitmap temp = Bitmap.createBitmap(testBitmap.getWidth(), testBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                    temp.copyPixelsFromBuffer(wraps);
+                    ivCompress.setImageBitmap(temp);
+                    //压缩后保存
+                    byte[] dstByte = getBytesByCompressStream(temp);
+                    FileUtils.writeByteToFile(dstByte, PATH_FILE_JPG);
                     //另一种从byte创建bitmap的思路，需要注意byte数组顺序
 //                    int imgWidth = testBitmap.getWidth();
 //                    int imgHeight = testBitmap.getHeight();
@@ -91,35 +105,11 @@ public class BitmapDemoActivity extends Activity {
 //                        pixel[i] = (0xFF << 24) + (gray << 16) + (gray << 8) + gray;
 //                    }
 //                    temp.setPixels(pixel, 0, imgWidth, 0, 0, imgWidth, imgHeight);
-                    FileUtils.writeByteToFile(dstByte,PATH_FILE_JPG);
+
                     break;
             }
         }
     };
-
-    // byte[] -> bitmap
-    public static Bitmap getBitmapByOriginBytes(byte[] bytes, int w, int h, Bitmap.Config config) {
-        if (bytes == null || bytes.length == 0 || w * h > bytes.length) return null;
-        int[] ints = bytesToInts(bytes);
-        Bitmap bm = Bitmap.createBitmap(ints, w, h, config);
-        return bm;
-    }
-
-    // bitmap -> byte[]
-    public static byte[] getBytesByBitmapCompress(Bitmap bitmap) {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        //压缩成jpg体积更小
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, output);
-        byte[] bytes = output.toByteArray();
-
-        try {
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return bytes;
-    }
 
     public static int[] bytesToInts(byte[] bytes) {
         int[] ints = new int[bytes.length / 4];
@@ -128,46 +118,51 @@ public class BitmapDemoActivity extends Activity {
         return ints;
     }
 
-    private void recoverFromPixel() {
-        byte[] img = getBitmapByteByCopyPixel(testBitmap);
+    //    ========================================================================================================================
+    //    =====================================================bitmap -> byte[] - > bitmap=============================
+    //    ========================================================================================================================
+
+    /**
+     * byte[] -> bitmap
+     */
+    private Bitmap getBitmapByCopyedBytes(byte[] img) {
         int imgWidth = testBitmap.getWidth();
         int imgHeight = testBitmap.getHeight();
         Bitmap faceImg = Bitmap.createBitmap(imgWidth, imgHeight, Bitmap.Config.ARGB_8888);
-//
-//        int[] pixel = new int[imgWidth * imgHeight];
-//        for (int i = 0; i < pixel.length; i++) {
-//            int gray = img[i];
-//            pixel[i] = (gray << 24) + (gray << 16) + (gray << 8) + gray;
-//        }
-//        faceImg.setPixels(pixel, 0, imgWidth, 0, 0, imgWidth, imgHeight);
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        faceImg.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         ByteBuffer wrap = ByteBuffer.wrap(img);
         faceImg.copyPixelsFromBuffer(wrap);
-        ivPixel.setImageBitmap(faceImg);
+        return faceImg;
     }
 
     /**
-     * 压缩后copy，byte数组较小
-     *
-     * @param bitmap
-     * @return
+     * bitmap->byte[]
      */
-    private byte[] getBitmapByteArrayByStream(Bitmap bitmap) {
+    public static final byte[] getBytesByCopyPixel(Bitmap bitmap) {
+        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
+        bitmap.copyPixelsToBuffer(buffer);
+        return buffer.array();
+    }
+
+
+    //    ========================================================================================================================
+    //    =====================================================bitmap -> compressed byte[] - > bitmap=============================
+    //    ========================================================================================================================
+
+    /**
+     * bitmap->compressed byte[]
+     */
+    private byte[] getBytesByCompressStream(Bitmap testBitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        //把bitmap压缩到stream中
+        testBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        //stream转成byte数组，如此得到的byte数组占用空间小
         return baos.toByteArray();
     }
 
     /**
-     * 未压缩直接copy，byte数组较大
-     *
-     * @param bitmap
-     * @return
+     * compressed byte[] -> bitmap
      */
-    public static final byte[] getBitmapByteByCopyPixel(Bitmap bitmap) {
-        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
-        bitmap.copyPixelsToBuffer(buffer);
-        return buffer.array();
+    private Bitmap getBitmapByCompressedBytes(byte[] tempByteArray) {
+        return BitmapFactory.decodeByteArray(tempByteArray, 0, tempByteArray.length);
     }
 }
