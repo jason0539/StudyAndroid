@@ -49,6 +49,7 @@
         <activity android:name=".demo.dragger.ViewDraggerActivity"/>
         <activity android:name=".demo.BitmapDemoActivity"/>
         <activity android:name=".demo.memory.MemoryLeakActivity"/>
+        <activity android:name=".demo.gl.OpenGLDemo"/>
     </application>
 
 </manifest>

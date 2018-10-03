@@ -3,6 +3,7 @@ package com.jason.workdemo.demo.gl;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
 import com.jason.workdemo.R;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -74,7 +76,23 @@ public class GLBitmap {
 
         // Use Android GLUtils to specify a two-dimensional texture image from
         // our bitmap
-        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+        //        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(bitmap.getWidth() * bitmap.getHeight() * 4);
+        byteBuffer.order(ByteOrder.BIG_ENDIAN);
+        IntBuffer ib = byteBuffer.asIntBuffer();
+
+        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
+        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        for (int i = 0; i < pixels.length; i++) {
+            ib.put(pixels[i] << 8 | pixels[i] >>> 24);
+        }
+
+        byteBuffer.position(0);
+
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, width, height, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, byteBuffer);
 
         // Clean up
         bitmap.recycle();
