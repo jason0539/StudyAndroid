@@ -79,17 +79,17 @@ public class GLBitmap {
         //        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
+        int[] pixels = new int[width * height];
+        //取到的pixels是ARGB的int[]
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
 
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(bitmap.getWidth() * bitmap.getHeight() * 4);
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(width * height * 4);
         byteBuffer.order(ByteOrder.BIG_ENDIAN);
-        IntBuffer ib = byteBuffer.asIntBuffer();
-
-        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
-        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        IntBuffer intBuffer = byteBuffer.asIntBuffer();
+        //把ARGB转成RGBA
         for (int i = 0; i < pixels.length; i++) {
-            ib.put(pixels[i] << 8 | pixels[i] >>> 24);
+            intBuffer.put(pixels[i] << 8 | pixels[i] >>> 24);
         }
-
         byteBuffer.position(0);
 
         GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, width, height, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, byteBuffer);
