@@ -4,15 +4,79 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_memory_make"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="生产100个对象" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_memory_leak"
+        <Button
+            android:id="@+id/btn_memory_leak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="泄露100个对象" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="泄露100个对象" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_memory_make_bitmap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="生产100个Bitmap" />
+
+        <Button
+            android:id="@+id/btn_memory_release_bitmap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="释放生产的Bitmap" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_memory_make_inner_heap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="生产100M堆内内存" />
+
+        <Button
+            android:id="@+id/btn_memory_release_inner_heap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="释放堆内内存" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_memory_make_outer_heap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="生产100M堆外内存" />
+
+        <Button
+            android:id="@+id/btn_memory_release_outer_heap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="释放堆外内存" />
+
+    </LinearLayout>
+
 </LinearLayout>
