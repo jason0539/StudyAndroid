@@ -82,10 +82,10 @@ apply plugin: 'plugin.param'
 apply plugin: 'plugin.test'
 apply plugin: 'plugin.asm'
 
-pluginExt {
+pluginExtension {
     param1 = 'app param1'
     param2 = 'app param2'
-    nestExt {
+    nestExtension {
         nestParam1 = 'app nestParam1'
         nestParam2 = 'app nestParam2'
     }

@@ -8,6 +8,7 @@ import org.gradle.api.Project
 
 /**
  * Created by HuaChao on 2016/7/4.
+ * https://juejin.im/entry/577b03438ac2470061afb130
  */
 class AsmPluginTransform extends Transform {
 
