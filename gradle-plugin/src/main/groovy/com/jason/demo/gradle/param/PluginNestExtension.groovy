@@ -1,7 +1,7 @@
 package com.jason.demo.gradle.param
 
 public class PluginNestExtension {
-    def nestParam1 = "nestParam1 default"
-    def nestParam2 = "nestParam2 default"
-    def nestParam3 = "nestParam3 default"
+    def innerParam1 = "nestParam1 default"
+    def innerParam2 = "nestParam2 default"
+    def innerParam3 = "nestParam3 default"
 }
