@@ -68,6 +68,11 @@ buildscript {
         maven {
             url uri('../gradle-plugin/repo')
         }
+        jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
         classpath 'com.jason.demo.gradle:gradle-plugin:1.0.0'
@@ -75,6 +80,7 @@ buildscript {
 }
 apply plugin: 'plugin.param'
 apply plugin: 'plugin.test'
+apply plugin: 'plugin.asm'
 
 pluginExt {
     param1 = 'app param1'
