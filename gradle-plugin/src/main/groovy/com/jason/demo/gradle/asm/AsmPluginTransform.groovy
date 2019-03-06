@@ -70,16 +70,8 @@ class AsmPluginTransform extends Transform {
             //对类型为jar文件的input进行遍历
             input.jarInputs.each { JarInput jarInput ->
 
-                //jar文件一般是第三方依赖库jar文件
-
-                // 重命名输出文件（同目录copyFile会冲突）
-                def jarName = jarInput.name
-                def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
-                if (jarName.endsWith(".jar")) {
-                    jarName = jarName.substring(0, jarName.length() - 4)
-                }
                 //生成输出路径
-                def dest = outputProvider.getContentLocation(jarName + md5Name,
+                def dest = outputProvider.getContentLocation(jarInput.name,
                         jarInput.contentTypes, jarInput.scopes, Format.JAR)
                 //将输入内容复制到输出
                 FileUtils.copyFile(jarInput.file, dest)
