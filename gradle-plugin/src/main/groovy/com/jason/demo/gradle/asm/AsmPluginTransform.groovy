@@ -51,6 +51,7 @@ class AsmPluginTransform extends Transform {
             throws IOException, TransformException, InterruptedException {
         AsmPlugin.logger.lifecycle("======================transform from asm =======")
 
+        //仿照shrinker的实现，在processor中使用asm编辑文件，可以根据要实现的不同编辑目标，传入不同的function
         new ClassSimpleProcessor(inputs,outputProvider,new ClassVisitorFunction()).proceed()
         // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
         // 以下是把class从 来处 写到 去处 ，写之前可以用javassist或者asm对字节码做编辑，如果没有改动原样写入，当前plugin相当于什么都没做
