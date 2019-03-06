@@ -58,6 +58,7 @@ class AsmPluginTransform extends Transform {
             //对类型为“文件夹”的input进行遍历
             input.directoryInputs.each { DirectoryInput directoryInput ->
 
+                //使用javassist编辑原文件
                 MyInject.injectDir(directoryInput.file.absolutePath,"com/jason/workdemo")
 
                 // 获取output目录
