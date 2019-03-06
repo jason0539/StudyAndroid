@@ -50,6 +50,8 @@ class AsmPluginTransform extends Transform {
                    TransformOutputProvider outputProvider, boolean isIncremental)
             throws IOException, TransformException, InterruptedException {
         AsmPlugin.logger.lifecycle("======================transform from asm =======")
+
+        new ClassSimpleProcessor(inputs,outputProvider,new ClassVisitorFunction()).proceed()
         // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
         inputs.each { TransformInput input ->
             //对类型为“文件夹”的input进行遍历
