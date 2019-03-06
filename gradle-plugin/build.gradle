@@ -6,6 +6,7 @@ dependencies {
     compile localGroovy()
     compile 'org.ow2.asm:asm:6.0'
     compile 'com.android.tools.build:gradle:3.0.0'
+    compile 'org.javassist:javassist:3.20.0-GA'
 }
 
 repositories {

@@ -11,7 +11,7 @@ import org.gradle.api.logging.Logging;
  * Created by daoming.lzh on 2019/3/4
  */
 public class AsmPlugin implements Plugin<Project> {
-    static final Logger logger = Logging.getLogger(AsmPlugin.class);
+    public static final Logger logger = Logging.getLogger(AsmPlugin.class);
 
     @Override
     public void apply(Project project) {

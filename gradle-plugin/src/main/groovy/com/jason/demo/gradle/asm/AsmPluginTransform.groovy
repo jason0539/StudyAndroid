@@ -2,6 +2,7 @@ package com.jason.demo.gradle.asm
 
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
+import com.jason.demo.gradle.MyInject
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
@@ -48,10 +49,13 @@ class AsmPluginTransform extends Transform {
                    Collection<TransformInput> referencedInputs,
                    TransformOutputProvider outputProvider, boolean isIncremental)
             throws IOException, TransformException, InterruptedException {
+        AsmPlugin.logger.lifecycle("======================transform from asm =======")
         // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
         inputs.each { TransformInput input ->
             //对类型为“文件夹”的input进行遍历
             input.directoryInputs.each { DirectoryInput directoryInput ->
+
+                MyInject.injectDir(directoryInput.file.absolutePath,"com/jason/workdemo")
 
                 // 获取output目录
                 def dest = outputProvider.getContentLocation(directoryInput.name,
