@@ -53,6 +53,7 @@ class AsmPluginTransform extends Transform {
 
         new ClassSimpleProcessor(inputs,outputProvider,new ClassVisitorFunction()).proceed()
         // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
+        // 以下是把class从 来处 写到 去处 ，写之前可以用javassist或者asm对字节码做编辑，如果没有改动原样写入，当前plugin相当于什么都没做
         inputs.each { TransformInput input ->
             //对类型为“文件夹”的input进行遍历
             input.directoryInputs.each { DirectoryInput directoryInput ->
