@@ -27,6 +27,7 @@ public class Utils {
                 throw new UnsupportedOperationException("unknow format " + input);
             }
             File file = outputProvider.getContentLocation(input.getName(), input.getContentTypes(), input.getScopes(), format);
+            if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
             return file.toPath();
         };
         Path path = getOutDirFunction.apply(qualifiedContent);

@@ -1,6 +1,7 @@
 package com.jason.demo.gradle.asm;
 
 import com.android.build.gradle.AppExtension;
+import com.jason.demo.gradle.param.PluginExtension;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -15,6 +16,8 @@ public class AsmPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
+        project.getExtensions().create("injectParam", InjectParam.class);
+
         logger.lifecycle("asm============================AsmPlugin.apply");
         AppExtension android = project.getExtensions().getByType(AppExtension.class);
         android.registerTransform(new AsmPluginTransform(project));

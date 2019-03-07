@@ -18,7 +18,7 @@ public class ClassSimpleProcessor implements Processor {
     private TransformOutputProvider outputProvider;
     private Function<byte[], byte[]> transFunction;
 
-    ClassSimpleProcessor(Collection<TransformInput> inputs, TransformOutputProvider outputProvider, Function<byte[], byte[]> transFunction) {
+     ClassSimpleProcessor(Collection<TransformInput> inputs, TransformOutputProvider outputProvider, Function<byte[], byte[]> transFunction) {
         this.inputs = inputs;
         this.outputProvider = outputProvider;
         this.transFunction = transFunction;
@@ -26,24 +26,19 @@ public class ClassSimpleProcessor implements Processor {
 
     @Override
     public void proceed() {
-//        Stream.concat(
-//                streamOf(inputs, TransformInput::getDirectoryInputs).map(input -> {
-//                    Path src = input.getFile().toPath();
-//                    Path dst = Utils.getDefaultOutputPath(outputProvider,input);
-//                    return new DirProcessor(transFunction, src, dst);
-//                })
-//                ,
-//                streamOf(inputs, TransformInput::getJarInputs).map(input -> {
-//                    Path src = input.getFile().toPath();
-//                    Path dst = getTargetPath.apply(input);
-//                    return new JarProcessor(transform, src, dst);
-//                })
-//        ).forEach(Processor::proceed);
-        streamOf(inputs, TransformInput::getDirectoryInputs).map(input -> {
-            Path src = input.getFile().toPath();
-            Path dst = Utils.getDefaultOutputPath(outputProvider, input);
-            return new DirProcessor(transFunction, src, dst);
-        }).forEach(Processor::proceed);
+        Stream.concat(
+                streamOf(inputs, TransformInput::getDirectoryInputs).map(input -> {
+                    Path src = input.getFile().toPath();
+                    Path dst = Utils.getDefaultOutputPath(outputProvider, input);
+                    return new DirProcessor(transFunction, src, dst);
+                })
+                ,
+                streamOf(inputs, TransformInput::getJarInputs).map(input -> {
+                    Path src = input.getFile().toPath();
+                    Path dst = Utils.getDefaultOutputPath(outputProvider, input);
+                    return new JarProcessor(transFunction, src, dst);
+                })
+        ).forEach(Processor::proceed);
     }
 
     private static <T extends QualifiedContent> Stream<T> streamOf(

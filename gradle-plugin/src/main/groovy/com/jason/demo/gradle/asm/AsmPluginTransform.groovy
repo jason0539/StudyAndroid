@@ -49,37 +49,43 @@ class AsmPluginTransform extends Transform {
                    Collection<TransformInput> referencedInputs,
                    TransformOutputProvider outputProvider, boolean isIncremental)
             throws IOException, TransformException, InterruptedException {
-        AsmPlugin.logger.lifecycle("======================transform from asm =======")
+        boolean inject = project['injectParam'].inject
+        AsmPlugin.logger.lifecycle("======================transform from asm ======= " + inject)
 
         //仿照shrinker的实现，在processor中使用asm编辑文件，可以根据要实现的不同编辑目标，传入不同的function，里面已经处理好并且保存到dst，其实可以保存回原处，多次处理之后一次性保存到dst
         //https://www.diycode.cc/topics/581
         //http://www.wangyuwei.me/2017/01/20/ASM-%E6%93%8D%E4%BD%9C%E5%AD%97%E8%8A%82%E7%A0%81%E5%88%9D%E6%8E%A2/
-        new ClassSimpleProcessor(inputs,outputProvider,new ClassVisitorFunction()).proceed()
-        // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
-        // 以下是把class从 来处 写到 去处 ，写之前可以用javassist或者asm对字节码做编辑，如果没有改动原样写入，当前plugin相当于什么都没做
-        inputs.each { TransformInput input ->
-            //对类型为“文件夹”的input进行遍历
-            input.directoryInputs.each { DirectoryInput directoryInput ->
+        if (inject) {
+            new ClassSimpleProcessor(inputs, outputProvider, new ClassVisitorFunction()).proceed()
+        } else {
+            // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
+            // 以下是把class从 来处 写到 去处 ，写之前可以用javassist或者asm对字节码做编辑，如果没有改动原样写入，当前plugin相当于什么都没做
+            inputs.each { TransformInput input ->
 
-                //使用javassist编辑原文件
-                MyInject.injectDir(directoryInput.file.absolutePath,"com/jason/workdemo")
+                //对类型为“文件夹”的input进行遍历
+                input.directoryInputs.each { DirectoryInput directoryInput ->
 
-                // 获取output目录
-                def dest = outputProvider.getContentLocation(directoryInput.name,
-                        directoryInput.contentTypes, directoryInput.scopes,
-                        Format.DIRECTORY)
+                    //使用javassist编辑原文件
+                    MyInject.injectDir(directoryInput.file.absolutePath,"com/jason/workdemo")
 
-                // 将input的目录复制到output指定目录
-                FileUtils.copyDirectory(directoryInput.file, dest)
-            }
-            //对类型为jar文件的input进行遍历
-            input.jarInputs.each { JarInput jarInput ->
+                    // 获取output目录
+                    def dest = outputProvider.getContentLocation(directoryInput.name,
+                            directoryInput.contentTypes, directoryInput.scopes,
+                            Format.DIRECTORY)
 
-                //生成输出路径
-                def dest = outputProvider.getContentLocation(jarInput.name,
-                        jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                //将输入内容复制到输出
-                FileUtils.copyFile(jarInput.file, dest)
+                    // 将input的目录复制到output指定目录
+                    FileUtils.copyDirectory(directoryInput.file, dest)
+                }
+
+                //对类型为jar文件的input进行遍历
+                input.jarInputs.each { JarInput jarInput ->
+
+                    //生成输出路径
+                    def dest = outputProvider.getContentLocation(jarInput.name,
+                            jarInput.contentTypes, jarInput.scopes, Format.JAR)
+                    //将输入内容复制到输出
+                    FileUtils.copyFile(jarInput.file, dest)
+                }
             }
         }
     }

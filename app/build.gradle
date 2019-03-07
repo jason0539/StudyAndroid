@@ -90,3 +90,7 @@ appExt {
         innerParam2 = 'app innerParam2'
     }
 }
+
+injectParam{
+    inject = true
+}
